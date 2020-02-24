@@ -4,16 +4,67 @@
 			<image src="/static/myday-banner2.png"
 			 mode="widthFix" class="response"></image>
 			<view class="nav-list" style="padding: 0rpx;">
-				<view class="cu-bar search bg-white" style="width: 100%;">
-					<view class="search-form round">
-						<text class="cuIcon-read"></text>
-						<input :adjust-position="false" type="text" placeholder="记录今天的输入、输出、体能" @focus="toggleAddStone"></input>
+				<view class="cu-bar bg-white solid-bottom" style="width: 100%;">
+					<view class="action">
+						<text class="cuIcon-titles text-orange"></text> 记录
 					</view>
 				</view>
-				<view v-show="addStyle">
-					add event
-				</view>
-				<view class="cu-list menu" style="width: 100%;">
+				<form style="width: 100%;" class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
+					<view v-show="addStyle" class="cu-form-group">
+						<button class="margin-sm basis-sm shadow cu-btn bg-gradual-orange" 
+						:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/index.jpg)':''}"
+						 @click="selectClassify($store.state.constants.event.classify.INPUT)">
+						 输入
+						 </button>
+						<button class="margin-sm basis-sm shadow cu-btn bg-gradual-green" 
+						:style="{backgroundImage:eventStone.classify == 'OUTPUT'?'url(/static/index.jpg)':''}"
+						@click="selectClassify($store.state.constants.event.classify.OUTPUT)" >输出</button>
+						<button class="margin-sm basis-sm shadow cu-btn bg-orange" 
+						:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/index.jpg)':''}"
+						@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
+					</view>
+					<view class="cu-bar search bg-white cu-form-group" style="width: 100%;">
+						<view class="title" v-show="addStyle">主题</view>
+						<view class="search-form round">
+							<text class="cuIcon-read"></text>
+							<input :adjust-position="false" type="text" :placeholder="eventSubjectPlaceholder" @focus="toggleAddStone"></input>
+						</view>
+					</view>
+					<view v-show="addStyle" class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
+						<view class="cu-form-group">
+							<view class="title">小记</view>
+							<input placeholder="小记记 , 小感感 , 小小得" name="input"></input>
+						</view>
+						<view class="cu-form-group">
+							<view>
+								<view v-show="eventType">
+									<view class="cu-tag round bg-gradual-orange lg">每日</view>
+									<view class="cu-tag round gray lg">每周</view>
+									<view class="cu-tag round gray lg">每月</view>
+								</view>
+							</view>
+							<view>
+								<switch class='orange radius margin-sm' 
+								:checked="eventStatus"
+								@change="switchStatus"></switch>&nbsp;&nbsp;{{eventStatusLabel}}
+								<switch class='orange radius margin-sm'
+								:checked="eventType"
+								@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
+							</view>
+						</view>
+						<view class="cu-form-group">
+							<view>
+							</view>
+							<view>
+								<button class="margin-sm basis-sm shadow cu-btn bg-gradual-blue" >
+								保存
+								</button>
+							</view>
+						</view>
+					</view>
+				</form>
+
+				<view class="cu-list menu" style="width: 100%;" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]" @touchstart="addStyle=false;selectClassify(null)">
 					<view class="cu-bar bg-white solid-bottom margin-top">
 						<view class="action">
 							<text class="cuIcon-title text-orange "></text> 今天
@@ -92,19 +143,67 @@
 				modalName: null,
 				listTouchStart: 0,
 				listTouchDirection: null,
-				addStyle: false
+				addStyle: false,
+				eventSubjectPlaceholder: "记录今天的输入、输出、体能",
+				eventStone: {
+					classify: this.$store.state.constants.event.classify.INPUT,
+					type: this.$store.state.constants.event.type.GENERIC,
+					status: "FULFILL"
+				},
 				
 			};
 		},
 		computed: {
 			
+			eventStatusLabel(){
+				return this.eventStone.status == 'FULFILL'?'完成':'待办'
+			},
+			eventStatus(){
+				return this.eventStone.status == 'FULFILL'?true:false
+			},
+			eventTypeLabel(){
+				return this.eventStone.type == 'GENERIC'?'今日':'必做'
+			},
+			eventType(){
+				return this.eventStone.type == 'GENERIC'?false:true
+			}
 		},
 		watch:{
 		},
 		methods:{
+			switchStatus(e){
+				if (e.detail.value) {
+					this.eventStone.status = "FULFILL"
+				}else {
+					this.eventStone.status = "TODO"
+				}
+			},
+			switchType(e){
+				if (e.detail.value) {
+					this.eventStone.type = 'EVERYDAY'
+				}else {
+					this.eventStone.type = 'GENERIC'
+				}
+			},
+			selectClassify(classify){
+				if(classify == this.$store.state.constants.event.classify.INPUT) {
+					this.eventSubjectPlaceholder = "读《自控力》"
+				}else if(classify == this.$store.state.constants.event.classify.OUTPUT) {
+					this.eventSubjectPlaceholder = "写博客《自控力》读后感"
+				}else if(classify == this.$store.state.constants.event.classify.PA) {
+					this.eventSubjectPlaceholder = "跑步五公里"
+				}else{
+					this.eventSubjectPlaceholder = "记录今天的输入、输出、体能"
+				}
+				this.eventStone.classify = classify
+			},
 			//打开添加事件界面
 			toggleAddStone(e){
-				this.addStyle = true
+				if (!this.addStyle) {
+					this.addStyle = true
+					this.selectClassify(this.$store.state.constants.event.classify.INPUT)
+				}
+				
 			},
 			// ListTouch触摸开始
 			ListTouchStart(e) {
@@ -131,4 +230,5 @@
 </script>
 
 <style>
+
 </style>
