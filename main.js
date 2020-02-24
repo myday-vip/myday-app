@@ -5,6 +5,8 @@ import store from './store'
 
 import today from './pages/today/index.vue'
 Vue.component('today',today)
+import life from './pages/life/index.vue'
+Vue.component('life',life)
 
 Vue.config.productionTip = false
 

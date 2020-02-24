@@ -38,9 +38,9 @@
 						<view class="cu-form-group">
 							<view>
 								<view v-show="eventType">
-									<view class="cu-tag round bg-gradual-orange lg">每日</view>
-									<view class="cu-tag round gray lg">每周</view>
-									<view class="cu-tag round gray lg">每月</view>
+									<view class="cu-tag round lg" :class="eventStone.type == 'EVERYDAY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'EVERYDAY'">每日</view>
+									<view class="cu-tag round lg" :class="eventStone.type == 'WEEKLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'WEEKLY'">每周</view>
+									<view class="cu-tag round lg" :class="eventStone.type == 'MONTHLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'MONTHLY'">每月</view>
 								</view>
 							</view>
 							<view>
@@ -167,6 +167,7 @@
 			eventType(){
 				return this.eventStone.type == 'GENERIC'?false:true
 			}
+			
 		},
 		watch:{
 		},

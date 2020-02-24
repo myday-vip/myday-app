@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<today v-if="PageCur == 'today'"></today>
+		<life v-if="PageCur == 'analysis'"></life>
 		<view class="cu-bar tabbar bg-white shadow foot">
 			<view class="action" @click="NavChange" data-cur="today">
 				<view class='cuIcon-cu-image'>
