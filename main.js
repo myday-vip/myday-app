@@ -7,6 +7,8 @@ import today from './pages/today/index.vue'
 Vue.component('today',today)
 import life from './pages/life/index.vue'
 Vue.component('life',life)
+import my from './pages/my/index.vue'
+Vue.component('my',my)
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
 

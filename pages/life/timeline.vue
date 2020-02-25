@@ -14,6 +14,7 @@
 						<view class="cu-tag line-cyan">{{subitem.createTime}}</view>
 					</view>
 					<view class="margin-top">{{subitem.subject}}</view>
+					<view class="margin-top">描述信息小记记 , 小感感 , 小小得小记记 , 小感感 , 小小得</view>
 				</view>
 			</view>
 
@@ -42,7 +43,8 @@
 							{"subject": "英语口语", "classify": "INPUT", "createTime":"2020-2-22 21:21:21"}, 
 							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-2-22 21:21:21"},
 							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-2-22 21:21:21"}],
-					]
+					],
+					timeLabel:["清晨5-8","上午8-11","中午11-13","下午13-18","傍晚18-22","深夜22-1","凌晨1-5"]
 			};
 		},
 		onLoad: function (option) { 

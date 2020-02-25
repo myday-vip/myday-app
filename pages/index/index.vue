@@ -2,6 +2,7 @@
 	<view>
 		<today v-if="PageCur == 'today'"></today>
 		<life v-if="PageCur == 'analysis'"></life>
+		<my v-if="PageCur == 'about'"></my>
 		<view class="cu-bar tabbar bg-white shadow foot">
 			<view class="action" @click="NavChange" data-cur="today">
 				<view class='cuIcon-cu-image'>

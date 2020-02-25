@@ -56,8 +56,8 @@
 							<view>
 							</view>
 							<view>
-								<button class="margin-sm basis-sm shadow cu-btn bg-gradual-blue" >
-								保存
+								<button class="margin-sm basis-sm shadow cu-btn bg-green" style="padding: 0 50upx;">
+								保&nbsp;&nbsp;&nbsp;&nbsp;存
 								</button>
 							</view>
 						</view>
