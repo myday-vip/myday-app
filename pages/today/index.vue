@@ -126,6 +126,11 @@
 					type: "MONTHLY",
 					status: "TODO"
 				},{
+					name: "跑步五公里",
+					classify: "INPUT",
+					type: "PHYSICAL_AGILITY",
+					status: "FULFILL"
+				},{
 					name: "公众号文章",
 					text: "在我的公众号是输出高质量文章",
 					classify: "OUTPUT",
