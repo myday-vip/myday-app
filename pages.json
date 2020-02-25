@@ -5,6 +5,12 @@
 			"style": {
 				"navigationBarTitleText": "我的天啊"
 			}
+		},
+		{
+			"path": "pages/life/timeline",
+			"style": {
+				"navigationBarTitleText": "事件"
+			}
 		}
 	],
 	"globalStyle": {

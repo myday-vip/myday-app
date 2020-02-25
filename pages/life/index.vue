@@ -21,12 +21,12 @@
 						<view style="background-color: #FFFFFF;" v-for="(item,index) in drawFirstDay" :key="index" ></view>
 				 		<view v-for="(item,index) in days.days" :key="index" >
 							<view v-if="!data[index]" class="day-deep-0"></view>
-							<view v-else-if="data[index].length == 1" class="day-deep-1"></view>
-							<view v-else-if="data[index].length == 2" class="day-deep-2"></view>
-							<view v-else-if="data[index].length == 3" class="day-deep-3"></view>
-							<view v-else-if="data[index].length == 4" class="day-deep-4"></view>
-							<view v-else-if="data[index].length == 5" class="day-deep-5"></view>
-							<view v-else-if="data[index].length >=8" class="day-deep-8"></view>
+							<view v-else-if="data[index].length == 1" class="day-deep-1" @click="dayClick(data[index])"></view>
+							<view v-else-if="data[index].length == 2" class="day-deep-2" @click="dayClick(data[index])"></view>
+							<view v-else-if="data[index].length == 3" class="day-deep-3" @click="dayClick(data[index])"></view>
+							<view v-else-if="data[index].length == 4" class="day-deep-4" @click="dayClick(data[index])"></view>
+							<view v-else-if="data[index].length == 5" class="day-deep-5" @click="dayClick(data[index])"></view>
+							<view v-else-if="data[index].length >=8" class="day-deep-8" @click="dayClick(data[index])"></view>
 						</view>
 				 	</view>
 				 </view>
@@ -48,22 +48,21 @@
 					weekDays:['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'],
 					data:{
 						6:[
-							{"subject": "英语单词", "classify": "INPUT", "createTime":""}, 
-							{"subject": "英语口语", "classify": "INPUT"}, 
-							{"subject": "写博客", "classify": "OUTPUT"}],
+							{"subject": "英语单词", "classify": "INPUT", "createTime":"2020-1-6 21:21:21"}, 
+							{"subject": "英语口语", "classify": "INPUT", "createTime":"2020-1-6 21:21:21"}, 
+							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-1-6 21:21:21"}],
 						21:[
-							{"subject": "英语单词", "classify": "INPUT"},
-							{"subject": "写读后感", "classify": "OUTPUT"},
-							{"subject": "跑步5公里", "classify": "PHYSICAL_AGILITY"}],
-						27:[
-							{"subject": "写读后感", "classify": "OUTPUT"},
-							{"subject": "跑步5公里", "classify": "PHYSICAL_AGILITY"}],
-						34:[
-							{"subject": "英语单词", "classify": "INPUT"}, 
-							{"subject": "英语口语", "classify": "INPUT"}, 
-							{"subject": "写博客", "classify": "OUTPUT"},
-							{"subject": "写博客", "classify": "OUTPUT"}],
-							
+							{"subject": "英语单词", "classify": "INPUT", "createTime":"2020-1-21 21:21:21"},
+							{"subject": "写读后感", "classify": "OUTPUT", "createTime":"2020-1-21 21:21:21"},
+							{"subject": "跑步5公里", "classify": "PHYSICAL_AGILITY", "createTime":"2020-1-21 21:21:21"}],
+						32:[
+							{"subject": "写读后感", "classify": "OUTPUT", "createTime":"2020-2-1 21:21:21"},
+							{"subject": "跑步5公里", "classify": "PHYSICAL_AGILITY", "createTime":"2020-2-1 21:21:21"}],
+						53:[
+							{"subject": "英语单词", "classify": "INPUT", "createTime":"2020-2-22 21:21:21"}, 
+							{"subject": "英语口语", "classify": "INPUT", "createTime":"2020-2-22 21:21:21"}, 
+							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-2-22 21:21:21"},
+							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-2-22 21:21:21"}],
 					}
 				}
 		},
@@ -76,6 +75,17 @@
 			this.days = this.getDay(this.years[0])
 		},
 		methods: {
+			dayClick: function(data){
+				uni.navigateTo({
+				    url: '/pages/life/timeline?id=1&name=uniapp',
+					animationType: 'pop-in',
+					animationDuration: 260,
+					complete: function(e){
+						console.log(e)
+					}
+				});
+				console.log(data)
+			},
 			switchYear: function(e){
 				this.days = this.getDay(this.years[e.detail.value])
 			},
