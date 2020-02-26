@@ -14,6 +14,12 @@
 		<view class="cu-list menu sm-border margin-top" >
 			<view class="cu-item arrow" >
 				<view class="content">
+					<text class="cuIcon-global text-grey"></text>
+					<text class="text-grey">世界</text>
+				</view>
+			</view>
+			<view class="cu-item arrow" >
+				<view class="content">
 					<text class="cuIcon-circlefill text-grey"></text>
 					<text class="text-grey">朋友</text>
 				</view>

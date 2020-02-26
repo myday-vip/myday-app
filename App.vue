@@ -40,8 +40,8 @@
 </script>
 
 <style>
-	@import "colorui/main.css";
-	@import "colorui/icon.css";
+	@import "components/main.css";
+	@import "components/icon.css";
 
 	.nav-list {
 		display: flex;
