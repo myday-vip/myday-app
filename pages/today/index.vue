@@ -52,6 +52,27 @@
 								@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
 							</view>
 						</view>
+						<view class="cu-bar bg-white">
+							<view class="action">
+								时光上传
+							</view>
+							<view class="action">
+								{{eventStone.imgList.length}}/4
+							</view>
+						</view>
+						<view class="cu-form-group">
+							<view class="grid col-4 grid-square flex-sub">
+								<view class="bg-img" v-for="(item,index) in eventStone.imgList" :key="index" @tap="viewImage" :data-url="eventStone.imgList[index]">
+								 <image :src="eventStone.imgList[index]" mode="aspectFill"></image>
+									<view class="cu-tag bg-red" @tap.stop="delImg" :data-index="index">
+										<text class='cuIcon-close'></text>
+									</view>
+								</view>
+								<view class="solids" @tap="chooseImage" v-if="eventStone.imgList.length<4">
+									<text class='cuIcon-cameraadd'></text>
+								</view>
+							</view>
+						</view>
 						<view class="cu-form-group">
 							<view>
 							</view>
@@ -153,8 +174,10 @@
 				eventStone: {
 					classify: this.$store.state.constants.event.classify.INPUT,
 					type: this.$store.state.constants.event.type.GENERIC,
-					status: "FULFILL"
+					status: "FULFILL",
+					imgList:[]
 				},
+				
 				
 			};
 		},
@@ -177,6 +200,39 @@
 		watch:{
 		},
 		methods:{
+			chooseImage() {
+				uni.chooseImage({
+					count: 4, //默认9
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: (res) => {
+						if (this.eventStone.imgList.length != 0) {
+							this.eventStone.imgList = this.imgList.concat(res.tempFilePaths)
+						} else {
+							this.eventStone.imgList = res.tempFilePaths
+						}
+					}
+				});
+			},
+			viewImage(e) {
+				uni.previewImage({
+					urls: this.eventStone.imgList,
+					current: e.currentTarget.dataset.url
+				});
+			},
+			delImg(e) {
+				uni.showModal({
+					title: '我的天啊',
+					content: '确定要删除这段回忆吗？',
+					cancelText: '再看看',
+					confirmText: '再见',
+					success: res => {
+						if (res.confirm) {
+							this.eventStone.imgList.splice(e.currentTarget.dataset.index, 1)
+						}
+					}
+				})
+			},
 			switchStatus(e){
 				if (e.detail.value) {
 					this.eventStone.status = "FULFILL"
