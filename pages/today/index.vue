@@ -10,7 +10,7 @@
 					</view>
 				</view>
 				<form style="width: 100%;" class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
-					<view v-show="addStyle" class="cu-form-group">
+					<view class="cu-form-group">
 						<button class="margin-sm basis-sm shadow cu-btn bg-gradual-orange" 
 						:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/index.jpg)':''}"
 						 @click="selectClassify($store.state.constants.event.classify.INPUT)">
@@ -23,14 +23,11 @@
 						:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/index.jpg)':''}"
 						@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
 					</view>
-					<view class="cu-bar search bg-white cu-form-group" style="width: 100%;">
-						<view class="title" v-show="addStyle">主题</view>
-						<view class="search-form round">
-							<text class="cuIcon-read"></text>
-							<input :adjust-position="false" type="text" :placeholder="eventSubjectPlaceholder" @focus="toggleAddStone"></input>
-						</view>
-					</view>
 					<view v-show="addStyle" class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
+						<view class="cu-form-group">
+							<view class="title">主题</view>
+							<input :placeholder="eventSubjectPlaceholder" name="input"></input>
+						</view>
 						<view class="cu-form-group">
 							<view class="title">小记</view>
 							<input placeholder="小记记 , 小感感 , 小小得" name="input"></input>
@@ -52,7 +49,7 @@
 								@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
 							</view>
 						</view>
-						<view class="cu-bar bg-white">
+						<view class="cu-bar bg-white" style="border-top: 1rpx solid #eee;">
 							<view class="action">
 								时光上传
 							</view>
@@ -60,7 +57,7 @@
 								{{eventStone.imgList.length}}/4
 							</view>
 						</view>
-						<view class="cu-form-group">
+						<view class="cu-form-group" style="border-top: 0;">
 							<view class="grid col-4 grid-square flex-sub">
 								<view class="bg-img" v-for="(item,index) in eventStone.imgList" :key="index" @tap="viewImage" :data-url="eventStone.imgList[index]">
 								 <image :src="eventStone.imgList[index]" mode="aspectFill"></image>
@@ -71,6 +68,24 @@
 								<view class="solids" @tap="chooseImage" v-if="eventStone.imgList.length<4">
 									<text class='cuIcon-cameraadd'></text>
 								</view>
+							</view>
+						</view>
+						<view class="cu-form-group" style="border-top: 0;">
+							<view class="title">
+								<text class="cuIcon-location margin-right-xs"></text>
+								<text>所在位置</text>
+							</view>
+							<view>
+								<text class="cuIcon-right"></text>
+							</view>
+						</view>
+						<view class="cu-form-group" style="border-top: 0;">
+							<view class="title">
+								<text class="cuIcon-link margin-right-xs"></text>
+								<text>链接</text>
+							</view>
+							<view>
+								<text class="cuIcon-right"></text>
 							</view>
 						</view>
 						<view class="cu-form-group">
@@ -172,7 +187,7 @@
 				addStyle: false,
 				eventSubjectPlaceholder: "记录今天的输入、输出、体能",
 				eventStone: {
-					classify: this.$store.state.constants.event.classify.INPUT,
+					classify: null,//this.$store.state.constants.event.classify.INPUT,
 					type: this.$store.state.constants.event.type.GENERIC,
 					status: "FULFILL",
 					imgList:[]
@@ -248,6 +263,9 @@
 				}
 			},
 			selectClassify(classify){
+				if (classify){
+					this.toggleAddStone()
+				}
 				if(classify == this.$store.state.constants.event.classify.INPUT) {
 					this.eventSubjectPlaceholder = "读《自控力》"
 				}else if(classify == this.$store.state.constants.event.classify.OUTPUT) {
@@ -260,7 +278,7 @@
 				this.eventStone.classify = classify
 			},
 			//打开添加事件界面
-			toggleAddStone(e){
+			toggleAddStone(){
 				if (!this.addStyle) {
 					this.addStyle = true
 					this.selectClassify(this.$store.state.constants.event.classify.INPUT)
@@ -292,5 +310,24 @@
 </script>
 
 <style>
+.cu-form-group.arrow {
+	padding-right: 90upx
+}
 
+.cu-form-group.arrow:before {
+	position: absolute;
+	top: 0;
+	right: 30upx;
+	bottom: 0;
+	display: block;
+	margin: auto;
+	width: 30upx;
+	height: 30upx;
+	color: #8799a3;
+	content: "\e6a3";
+	text-align: center;
+	font-size: 34upx;
+	font-family: cuIcon;
+	line-height: 30upx
+}
 </style>
