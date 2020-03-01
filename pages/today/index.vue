@@ -44,7 +44,7 @@
 								<switch class='orange radius margin-sm' 
 								:checked="eventStatus"
 								@change="switchStatus"></switch>&nbsp;&nbsp;{{eventStatusLabel}}
-								<switch class='orange radius margin-sm'
+								<switch class='orange radius margin-sm switch-day'
 								:checked="eventType"
 								@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
 							</view>
@@ -310,24 +310,25 @@
 </script>
 
 <style>
-.cu-form-group.arrow {
-	padding-right: 90upx
+.switch-day::after {
+	content: "\e7b4";
 }
 
-.cu-form-group.arrow:before {
-	position: absolute;
-	top: 0;
-	right: 30upx;
-	bottom: 0;
-	display: block;
-	margin: auto;
-	width: 30upx;
-	height: 30upx;
-	color: #8799a3;
-	content: "\e6a3";
-	text-align: center;
-	font-size: 34upx;
-	font-family: cuIcon;
-	line-height: 30upx
+.switch-day::before {
+	content: "\e7b5";
+}
+
+.switch-day .wx-switch-input,
+.switch-day .uni-switch-input {
+	color: #e54d42;
+	background: #e54d42;
+	border-color: #e54d42;
+}
+
+.switch-day[checked] .wx-switch-input,
+.switch-day.checked .uni-switch-input {
+	color: #39b54a;
+	background: #39b54a;
+	border-color: #39b54a;
 }
 </style>

@@ -3,7 +3,7 @@
 		<scroll-view scroll-y class="page">
 			<image src="/static/myday-banner2.png"
 			 mode="widthFix" class="response"></image>
-				 <view class="bg-white padding flex  p-xs  mb-sm">
+				 <view class="bg-white padding flex p-xs mb-sm">
 					<view class="flex-sub margin-xs">
 						<view class="lex flex-wrap" style="height: 100%;">
 							<view class="padding-sm">
