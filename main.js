@@ -3,8 +3,11 @@ import App from './App'
 
 import store from './store'
 
-import today from './pages/today/index.vue'
+import mainToday from './pages/today/index.vue'
+Vue.component('mainToday',mainToday)
+import today from './pages/today/today.vue'
 Vue.component('today',today)
+
 import life from './pages/life/index.vue'
 Vue.component('life',life)
 import my from './pages/my/index.vue'

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<today v-if="PageCur == 'today'"></today>
+		<mainToday v-if="PageCur == 'today'"></mainToday>
 		<life v-if="PageCur == 'analysis'"></life>
 		<my v-if="PageCur == 'about'"></my>
 		<view class="cu-bar tabbar bg-white shadow foot">
