@@ -43,7 +43,7 @@
 		</block>
 		
 		<view class="cu-list menu sm-border margin-top" >
-			<view class="cu-item arrow" >
+			<view class="cu-item arrow" @click="test">
 				<view class="content">
 					<text class="cuIcon-global text-grey"></text>
 					<text class="text-grey">世界</text>
@@ -82,6 +82,8 @@
 </template>
 
 <script>
+	import {login} from '../../common/api.js'
+	import {setToken,getToken} from '../../common/request.js'
 	export default{
 		data(){
 			return {
@@ -93,9 +95,14 @@
 			console.log("onload")
 		},
 		onReady(){
-			console.log("onReady")
+			if (getToken()){
+				this.isLogin = true
+			}
 		},
 		methods:{
+			test(){
+				console.log(getToken())
+			},
 			onGotWXUserInfo(msg){
 				console.log(msg)
 				if (msg.detail.errMsg === "getUserInfo:ok") {
@@ -118,6 +125,10 @@
 			        // #endif
 			        success: (res) => {
 			            console.log('login success:', res);
+						login(res.code,this.userInfo).then((res) => {
+							setToken(res.access_token)
+							this.isLogin = true
+						})
 			        },
 			        fail: (err) => {
 			            console.log('login fail:', err);
