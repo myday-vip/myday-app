@@ -13,7 +13,7 @@
 				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray'}"></view>
 				<view class="content">
 					<view :class="item.status == 'TODO'?'text-orange':'text-gray'">
-						<view class="text-cut">{{item.name}}</view>
+						<view class="text-cut">{{item.subject}}</view>
 						<view v-if="item.type == 'EVERYDAY'" class="cu-tag round bg-orange sm">每日必做</view>
 						<view v-else-if="item.type == 'WEEKLY'" class="cu-tag round bg-green sm">每周必做</view>
 						<view v-else-if="item.type == 'MONTHLY'" class="cu-tag round bg-gradual-green sm">每月必做</view>

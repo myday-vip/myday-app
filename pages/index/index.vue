@@ -33,9 +33,16 @@
 				PageCur: 'today'
 			}
 		},
+		onLoad(option) {
+			uni.$on('updatePageCur',this.NavChange2)
+			
+		},
 		methods: {
 			NavChange: function(e) {
 				this.PageCur = e.currentTarget.dataset.cur
+			},
+			NavChange2: function(e) {
+				this.PageCur = e.cur
 			}
 		}
 	}

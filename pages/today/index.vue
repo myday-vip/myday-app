@@ -109,7 +109,11 @@
 </template>
 
 <script>
+	import {getEvent} from '../../common/api.js'
 	export default {
+		created() {
+			this.fetchEvent()
+		},
 		data() {
 			return {
 				events: [{
@@ -175,6 +179,11 @@
 		watch:{
 		},
 		methods:{
+			fetchEvent(){
+				getEvent().then((res) => {
+					this.events = res;
+				})
+			},
 			chooseImage() {
 				uni.chooseImage({
 					count: 4, //默认9

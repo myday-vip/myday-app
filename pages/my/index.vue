@@ -43,7 +43,7 @@
 		</block>
 		
 		<view class="cu-list menu sm-border margin-top" >
-			<view class="cu-item arrow" @click="test">
+			<view class="cu-item arrow">
 				<view class="content">
 					<text class="cuIcon-global text-grey"></text>
 					<text class="text-grey">世界</text>
@@ -100,9 +100,6 @@
 			}
 		},
 		methods:{
-			test(){
-				console.log(getToken())
-			},
 			onGotWXUserInfo(msg){
 				console.log(msg)
 				if (msg.detail.errMsg === "getUserInfo:ok") {

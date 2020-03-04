@@ -22,24 +22,44 @@ function request(url, postData, method, type, showLoading) {
 		}
 		url = "http://localhost:8080/" + url
 		const token = getToken()
-		console.log(token)
+		var header = {}
+		if (token) {
+			header['Authorization']= 'Bearer ' + token
+		}
+		if (method === 'POST') {
+			console.log(method)
+			header['content-type']= 'application/json'
+		}
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: url,
 				data: postData,
-				header: {
-					'content-type': 'application/json',
-					'Authorization': 'Bearer ' + token
-				},
-				method: method, //'GET','POST'
+				header: header,
+				method: method,
 				dataType: 'json',
 				success: (res) => {
-					showLoading && uni.hideLoading()
-					resolve(res.data)
+					if (res.statusCode === 200) {
+						resolve(res.data)
+					}else if (res.statusCode === 401) {
+						uni.showToast({
+							image:'/static/logo.png',
+							title:'请登录'
+						})
+						uni.$emit('updatePageCur',{cur:'about'})
+						
+					}else {
+						reject(res)
+					}
 				},
 				fail: (res) => {
-					fetch.toast("网络不给力，请稍后再试~")
+					uni.showToast({
+						image:'/static/logo.png',
+						title:'请检查网络'
+					})						
 					reject(res)
+				},
+				complete: () => {
+					showLoading && uni.hideLoading()
 				}
 			})
 		})
