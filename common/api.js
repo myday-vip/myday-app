@@ -8,5 +8,8 @@ module.exports = {
 	},
 	getEvent: function(){
 		return get("api/event/today")
+	},
+	addEvent: function(event){
+		return post("api/event", event)
 	}
 }

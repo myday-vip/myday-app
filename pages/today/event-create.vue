@@ -16,11 +16,11 @@
 		<view v-show="showall" class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
 			<view class="cu-form-group">
 				<view class="title">主题</view>
-				<input :placeholder="eventSubjectPlaceholder" name="input"></input>
+				<input v-model="eventStone.subject" :placeholder="eventSubjectPlaceholder" name="input"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">小记</view>
-				<input placeholder="小记记 , 小感感 , 小小得" name="input"></input>
+				<input v-model="eventStone.text" placeholder="小记记 , 小感感 , 小小得" name="input"></input>
 			</view>
 			<view class="cu-form-group">
 				<view>
@@ -82,7 +82,7 @@
 				<view>
 				</view>
 				<view>
-					<button class="margin-sm basis-sm shadow cu-btn bg-green" style="padding: 0 50upx;">
+					<button @click="createEvent" class="margin-sm basis-sm shadow cu-btn bg-green" style="padding: 0 50upx;">
 					保&nbsp;&nbsp;&nbsp;&nbsp;存
 					</button>
 				</view>
@@ -92,6 +92,7 @@
 </template>
 
 <script>
+	import {addEvent} from '../../common/api.js'
 	export default{
 		props:{
 			showAll: {
@@ -103,6 +104,8 @@
 			return {
 				eventSubjectPlaceholder: "记录今天的输入、输出、体能",
 				eventStone: {
+					subject: "",
+					text: "",
 					classify: null,//this.$store.state.constants.event.classify.INPUT,
 					type: this.$store.state.constants.event.type.GENERIC,
 					status: "FULFILL",
@@ -131,6 +134,19 @@
 			
 		},
 		methods:{
+			createEvent(){
+				addEvent(this.eventStone).then((data) => {
+					if (data.id) {
+						uni.showToast({
+							title:'记录点滴'
+						})
+						uni.$emit('event:created',null)
+						this.addStyle = false
+					}
+				}).catch((e) => {
+					console.error(e)
+				})
+			},
 			chooseImage() {
 				uni.chooseImage({
 					count: 4, //默认9

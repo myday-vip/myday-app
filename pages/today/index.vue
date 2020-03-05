@@ -24,6 +24,7 @@
 	export default {
 		created() {
 			this.fetchEvent()
+			uni.$on('event:created',this.fetchEvent)
 		},
 		data() {
 			return {

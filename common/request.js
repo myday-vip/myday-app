@@ -45,8 +45,14 @@ function request(url, postData, method, type, showLoading) {
 							image:'/static/logo.png',
 							title:'请登录'
 						})
+						setToken(null)
 						uni.$emit('updatePageCur',{cur:'about'})
-						
+					}else if (res.statusCode === 400) {	
+						uni.showToast({
+							image:'/static/logo.png',
+							title: res.data
+						})
+						reject(res)
 					}else {
 						reject(res)
 					}
