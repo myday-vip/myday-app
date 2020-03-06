@@ -24,10 +24,11 @@
 					</view>
 				</view>
 				<view class="action">
-					<view class="text-grey text-xs">{{item.timeDo}}</view>
+					<view class="text-grey text-xs">{{item.time}}</view>
 					<view class="flex solid-bottom justify-end">
-						<view v-if="item.status == 'FULFILL'" class="padding-xs margin-xs radius cuIcon-favorfill text-green text-sl"></view>
-						<view v-if="item.status == 'FULFILL'" class="padding-xs margin-xs radius cuIcon-favorfill text-green text-sl"></view>
+						<block v-if="item.status == 'FULFILL'">
+							<view v-for="(tt,ti) in item.frequency" :key="ti" class="padding-xs margin-xs radius cuIcon-favorfill text-green text-sl"></view>
+						</block>
 						<view v-else class=" padding-sm margin-xs radius cuIcon-favor"></view>
 					</view>
 					

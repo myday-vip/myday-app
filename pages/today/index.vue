@@ -28,40 +28,7 @@
 		},
 		data() {
 			return {
-				events: [{
-					subject: "英语单词",
-					text: "使用扇贝记单词记30个单词",
-					classify: "INPUT",
-					type: "EVERYDAY",
-					status: "TODO",
-				},{
-					subject: "英语口语",
-					classify: "INPUT",
-					type: "MONTHLY",
-					status: "TODO"
-				},{
-					subject: "跑步五公里",
-					classify: "INPUT",
-					type: "PHYSICAL_AGILITY",
-					status: "FULFILL"
-				},{
-					subject: "公众号文章",
-					text: "在我的公众号是输出高质量文章",
-					classify: "OUTPUT",
-					type: "WEEKLY",
-					status: "FULFILL",
-					timeDo: "8:30"
-				},{
-					subject: "读《人类简史》",
-					text: "才读了2章，感觉还不错。过几天写个读后感",
-					classify: "INPUT",
-					type: "GENERIC",
-					status: "FULFILL",
-					timeDo: "9:30"
-				}],
-							
-				
-				
+				events: []
 			};
 		},
 		

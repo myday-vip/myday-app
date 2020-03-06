@@ -16,11 +16,19 @@
 		<view v-show="showall" class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
 			<view class="cu-form-group">
 				<view class="title">主题</view>
-				<input v-model="eventStone.subject" :placeholder="eventSubjectPlaceholder" name="input"></input>
+				<input-autocomplete
+				style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;font-size: 30rpx;color: #555;padding-right: 20rpx;box-sizing: border-box;"
+				:placeholder="eventSubjectPlaceholder"
+				 v-model="eventStone.subject"
+				 :value="eventStone.subject" 
+				 highlightColor="#FF0000" 
+				 :stringList="events" 
+				 min="1"
+				 v-on:selectItem="selectSubjectItem"></input-autocomplete>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">小记</view>
-				<input v-model="eventStone.text" placeholder="小记记 , 小感感 , 小小得" name="input"></input>
+				<input v-model="eventStone.text" placeholder="小记记 , 小感感 , 小小得" ></input>
 			</view>
 			<view class="cu-form-group">
 				<view>
@@ -92,8 +100,13 @@
 </template>
 
 <script>
-	import {addEvent} from '../../common/api.js'
+	import {addEvent,getAllEvent} from '../../common/api.js'
+	import {storage} from '../../common/storage.js'
+	import inputAutocomplete from '@/components/pro/input-autocomplete.vue';
 	export default{
+		components: {
+					inputAutocomplete
+		},
 		props:{
 			showAll: {
 				default: false,
@@ -111,8 +124,19 @@
 					status: "FULFILL",
 					imgList:[]
 				},
-				addStyle: false
+				addStyle: false,
+				events:[]
 			}
+		},
+		mounted() {
+			var temp = storage.get("storage:event:list")
+			if (!temp) {
+				this.eventList()
+			}else {
+				this.events = temp
+			}
+			uni.$on('event:created',this.eventList)
+			
 		},
 		computed: {
 			
@@ -123,7 +147,7 @@
 				return this.eventStone.status == 'FULFILL'?true:false
 			},
 			eventTypeLabel(){
-				return this.eventStone.type == 'GENERIC'?'今日':'必做'
+				return this.eventStone.type == 'GENERIC'?'计划':'必做'
 			},
 			eventType(){
 				return this.eventStone.type == 'GENERIC'?false:true
@@ -134,6 +158,15 @@
 			
 		},
 		methods:{
+			selectSubjectItem(data){
+				console.log(data)
+			},
+			eventList(){
+				getAllEvent().then((data) => {
+					this.events = data
+					storage.put("storage:event:list",data)
+				})
+			},
 			createEvent(){
 				addEvent(this.eventStone).then((data) => {
 					if (data.id) {

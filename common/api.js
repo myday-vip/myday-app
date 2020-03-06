@@ -11,5 +11,8 @@ module.exports = {
 	},
 	addEvent: function(event){
 		return post("api/event", event)
+	},
+	getAllEvent: function(){
+		return get("api/event/all")
 	}
 }
