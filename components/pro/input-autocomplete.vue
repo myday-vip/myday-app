@@ -1460,7 +1460,7 @@
 				return typeof str == 'string' && str.constructor == String;
 			},
 			filterList(stringExp) {
-				console.log(stringExp)
+				//console.log(stringExp)
 				let tempArray = [];
 				for (let i = 0; i < this.srcDataList.length; i++) {
 					let it = this.srcDataList[i];
@@ -1636,7 +1636,6 @@
 		},
 		watch: {
 			stringList(val) {
-				console.log(val)
 				this.srcDataList = val;
 			},
 			param(val){

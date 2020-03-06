@@ -21,6 +21,7 @@
 
 <script>
 	import {getEvent} from '../../common/api.js'
+	import {dateUtils} from '../../common/util.js'
 	export default {
 		created() {
 			this.fetchEvent()
@@ -37,6 +38,10 @@
 		methods:{
 			fetchEvent(){
 				getEvent().then((res) => {
+					var now =new Date().getTime();
+					res.forEach(e => {
+						e.updateTimeLabel = dateUtils.humanize(now-e.updateTime)
+					})
 					this.events = res;
 				})
 			}
