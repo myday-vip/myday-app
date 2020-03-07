@@ -159,10 +159,16 @@
 		},
 		methods:{
 			selectSubjectItem(data){
-				console.log(data)
+				if (data || data.selectItem) {
+					this.eventStone.classify = data.selectItem.classify
+					this.eventStone.type = data.selectItem.type
+				}
 			},
 			eventList(){
 				getAllEvent().then((data) => {
+					data.forEach(e => {
+						e.text = e.subject
+					})
 					this.events = data
 					storage.put("storage:event:list",data)
 				})

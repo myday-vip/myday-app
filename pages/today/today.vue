@@ -24,7 +24,7 @@
 					</view>
 				</view>
 				<view class="action">
-					<view class="text-grey text-xs">{{item.updateTimeLabel}}</view>
+					<view v-show="item.status == 'FULFILL'" class="text-grey text-xs">{{item.updateTimeLabel}}</view>
 					<view class="flex solid-bottom justify-end">
 						<block v-if="item.status == 'FULFILL'">
 							<view v-for="(tt,ti) in item.frequency" :key="ti" class="padding-xs margin-xs radius cuIcon-favorfill text-green text-sl"></view>

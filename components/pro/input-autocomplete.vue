@@ -1539,8 +1539,7 @@
 				}
 			},
 			selectThisItem(item) {
-				console.log('selectThisItem...........')
-				console.log('extraParam==>',this.extraParam)
+				//console.log('extraParam==>',this.extraParam)
 				//this.value = item.orginalString;
 				this.needShow = false;
 				this.$emit('input', item.orginalString);

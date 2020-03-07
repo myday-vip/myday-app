@@ -27,7 +27,6 @@ function request(url, postData, method, type, showLoading) {
 			header['Authorization']= 'Bearer ' + token
 		}
 		if (method === 'POST') {
-			console.log(method)
 			header['content-type']= 'application/json'
 		}
 		return new Promise((resolve, reject) => {
@@ -71,10 +70,10 @@ function request(url, postData, method, type, showLoading) {
 		})
 }
 function get(api){
-	return request(api, null, 'GET', null, true)
+	return request(api, null, 'GET', null, false)
 }
 function post(api,data){
-	return request(api, data, 'POST', null, true)
+	return request(api, data, 'POST', null, false)
 }
 
 module.exports = {
