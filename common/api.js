@@ -6,6 +6,7 @@ module.exports = {
 		user.code = code
 		return post("login_by_weixin", user)
 	},
+	// event
 	getEvent: function(){
 		return get("api/event/today")
 	},
@@ -14,5 +15,8 @@ module.exports = {
 	},
 	getAllEvent: function(){
 		return get("api/event/all")
+	},
+	updateStatusCompleted: function(id){
+		return post("api/event/completed/"+id)
 	}
 }

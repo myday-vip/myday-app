@@ -26,6 +26,7 @@
 		created() {
 			this.fetchEvent()
 			uni.$on('event:created',this.fetchEvent)
+			uni.$on('event:updated',this.fetchEvent)
 		},
 		data() {
 			return {

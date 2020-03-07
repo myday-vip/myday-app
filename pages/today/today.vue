@@ -34,15 +34,44 @@
 					
 				</view>
 				<view class="move">
-					<view class="bg-grey">置顶</view>
-					<view class="bg-gradual-orange">完成</view>
+					<!-- <view class="bg-red">删除</view> -->
+					<view class="bg-orange" @click="showCompletedModal(item)">完成</view>
 				</view>
 			</view>
 		</view>
+		
+		<view class="cu-modal" :class="modalName=='confirmComplete'?'show':''">
+			<view class="cu-dialog">
+				<view class="bg-img" style="background-image: url('https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg');height:200px;">
+					<view class="cu-bar justify-end text-white">
+						<view class="action" @tap="hideModal">
+							<text class="cuIcon-close "></text>
+						</view>
+					</view>
+					<view class="padding-xl text-white" style="padding-top: 0;">
+						<view class="padding-xs text-xxl text-bold">
+							{{currentModel.title}}
+						</view>
+						<view class="padding-xs text-lg">
+							{{currentModel.subtitle}}
+						</view>
+					</view>
+				</view>
+				<view class="cu-bar bg-white">
+					<view class="action margin-0 flex-sub  solid-left" @tap="hideModal(false)" v-if="currentModel.showCancel">取消</view>
+					<view class="action margin-0 flex-sub  solid-left bg-green" 
+					style="min-height: 100rpx;margin: 0;" 
+					@tap="hideModal(true)"
+					>{{currentModel.ok}}</view>
+				</view>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
 <script>
+	import {updateStatusCompleted} from '../../common/api.js'
 	export default {
 		props:{
 			events: {
@@ -54,12 +83,47 @@
 		},
 		data(){
 			return {
+				currentModel: {ok:"我已完成",showCancel:true},
 				modalName: null,
 				listTouchStart: 0,
 				listTouchDirection: null
 			}
 		},
 		methods:{
+			showCompletedModal(data){
+				this.modalName = "confirmComplete"
+				this.currentModel.id = data.id
+				this.currentModel.title = data.subject
+				this.currentModel.subtitle = "每天的点滴积累，必定迎来某天的大海"
+				if (data.status === 'FULFILL') {
+					this.currentModel.ok = "确定 +1"
+					if (data.type === 'EVERYDAY' ) {
+						this.currentModel.subtitle = "「每日必做」今天已经完成" + data.frequency + "次"
+					}else if (data.type === 'WEEKLY' ) {
+						this.currentModel.subtitle = "「每周必做」本周已经完成" + data.frequency + "次"
+					}else if (data.type === 'MONTHLY' ) {
+						this.currentModel.subtitle = "「每月必做」本月已经完成" + data.frequency + "次"
+					}else {
+						this.currentModel.subtitle = "非「每X必做」不能再「完成」了"
+						this.currentModel.ok = "知道了"
+						this.currentModel.showCancel = false
+					}
+				}else {
+					this.currentModel.ok = "我已完成"
+				
+				}
+			},
+			hideModal(ok){
+				if (ok && this.modalName === "confirmComplete" && this.currentModel.ok !== "知道了"){
+					updateStatusCompleted(this.currentModel.id).then(() => {
+						uni.showToast({
+							title:"加油"
+						})
+						uni.$emit('event:updated',null)
+					})
+				}
+				this.modalName = null
+			},
 			// ListTouch触摸开始
 			ListTouchStart(e) {
 				this.listTouchStart = e.touches[0].pageX

@@ -13,7 +13,7 @@
 			:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/index.jpg)':''}"
 			@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
 		</view>
-		<view v-show="showall" class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
+		<view v-show="showall" class="animation-slide-bottom" style="animation: show 1.2s;">
 			<view class="cu-form-group">
 				<view class="title">主题</view>
 				<input-autocomplete
@@ -157,6 +157,9 @@
 			}
 			
 		},
+		watch:{
+			
+		},
 		methods:{
 			selectSubjectItem(data){
 				if (data || data.selectItem) {
@@ -181,6 +184,14 @@
 						})
 						uni.$emit('event:created',null)
 						this.addStyle = false
+						this.eventStone= {
+							subject: "",
+							text: "",
+							classify: null,
+							type: this.$store.state.constants.event.type.GENERIC,
+							status: "FULFILL",
+							imgList:[]
+						}
 					}
 				}).catch((e) => {
 					console.error(e)
@@ -240,7 +251,7 @@
 				if(classify == this.$store.state.constants.event.classify.INPUT) {
 					this.eventSubjectPlaceholder = "读《自控力》"
 				}else if(classify == this.$store.state.constants.event.classify.OUTPUT) {
-					this.eventSubjectPlaceholder = "写博客《自控力》读后感"
+					this.eventSubjectPlaceholder = "写《自控力》读后感"
 				}else if(classify == this.$store.state.constants.event.classify.PA) {
 					this.eventSubjectPlaceholder = "跑步五公里"
 				}else{
