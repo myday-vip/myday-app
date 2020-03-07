@@ -18,5 +18,8 @@ module.exports = {
 	},
 	updateStatusCompleted: function(id){
 		return post("api/event/completed/"+id)
+	},
+	getYearEvents: function(year) {
+		return get("api/event/year/"+year)
 	}
 }

@@ -20,13 +20,13 @@
 						<view class="text-center text-black text-bold" style="margin-top: 10rpx;" v-for="(item,index) in weekDays" :key="index" >{{item}}</view>
 						<view style="background-color: #FFFFFF;" v-for="(item,index) in drawFirstDay" :key="index" ></view>
 				 		<view v-for="(item,index) in days.days" :key="index" >
-							<view v-if="!data[index]" class="day-deep-0"></view>
-							<view v-else-if="data[index].length == 1" class="day-deep-1" @click="dayClick(data[index])"></view>
-							<view v-else-if="data[index].length == 2" class="day-deep-2" @click="dayClick(data[index])"></view>
-							<view v-else-if="data[index].length == 3" class="day-deep-3" @click="dayClick(data[index])"></view>
-							<view v-else-if="data[index].length == 4" class="day-deep-4" @click="dayClick(data[index])"></view>
-							<view v-else-if="data[index].length == 5" class="day-deep-5" @click="dayClick(data[index])"></view>
-							<view v-else-if="data[index].length >=8" class="day-deep-8" @click="dayClick(data[index])"></view>
+							<view v-if="!data[item.key]" class="day-deep-0" @click="dayClick(item)"></view>
+							<view v-else-if="data[item.key].length == 1" class="day-deep-1" @click="dayClick(item)"></view>
+							<view v-else-if="data[item.key].length == 2" class="day-deep-2" @click="dayClick(item)"></view>
+							<view v-else-if="data[item.key].length == 3" class="day-deep-3" @click="dayClick(item)"></view>
+							<view v-else-if="data[item.key].length == 4" class="day-deep-4" @click="dayClick(item)"></view>
+							<view v-else-if="data[item.key].length == 5" class="day-deep-5" @click="dayClick(item)"></view>
+							<view v-else-if="data[item.key].length >=8" class="day-deep-8" @click="dayClick(item)"></view>
 						</view>
 				 	</view>
 				 </view>
@@ -39,31 +39,20 @@
 </template>
 
 <script>
+	import {getYearEvents} from '../../common/api.js'
 	export default {
 		data() {
 			return {
+					monthDay:[
+					  31, null, 31, 30, 
+					  31, 30, 31, 31,
+					  30, 31, 30, 31
+					],
 					days: {days:365,firstDay:1},
 					years:[2020,2019,2018],//TODO DData
 					currentYearLabel:'',
 					weekDays:['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'],
-					data:{
-						6:[
-							{"subject": "英语单词", "classify": "INPUT", "createTime":"2020-1-6 21:21:21"}, 
-							{"subject": "英语口语", "classify": "INPUT", "createTime":"2020-1-6 21:21:21"}, 
-							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-1-6 21:21:21"}],
-						21:[
-							{"subject": "英语单词", "classify": "INPUT", "createTime":"2020-1-21 21:21:21"},
-							{"subject": "写读后感", "classify": "OUTPUT", "createTime":"2020-1-21 21:21:21"},
-							{"subject": "跑步5公里", "classify": "PHYSICAL_AGILITY", "createTime":"2020-1-21 21:21:21"}],
-						32:[
-							{"subject": "写读后感", "classify": "OUTPUT", "createTime":"2020-2-1 21:21:21"},
-							{"subject": "跑步5公里", "classify": "PHYSICAL_AGILITY", "createTime":"2020-2-1 21:21:21"}],
-						53:[
-							{"subject": "英语单词", "classify": "INPUT", "createTime":"2020-2-22 21:21:21"}, 
-							{"subject": "英语口语", "classify": "INPUT", "createTime":"2020-2-22 21:21:21"}, 
-							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-2-22 21:21:21"},
-							{"subject": "写博客", "classify": "OUTPUT", "createTime":"2020-2-22 21:21:21"}],
-					}
+					data:{}
 				}
 		},
 		computed:{
@@ -72,19 +61,26 @@
 			}
 		},
 		onReady() {
+			console.log("onready")
 			this.days = this.getDay(this.years[0])
 		},
 		methods: {
-			dayClick: function(data){
-				uni.navigateTo({
-				    url: '/pages/life/timeline?id=1&name=uniapp',
-					animationType: 'pop-in',
-					animationDuration: 260,
-					complete: function(e){
-						console.log(e)
-					}
-				});
-				console.log(data)
+			dayClick: function(item){
+				let day = this.data[item.key]
+				if (!day){
+					uni.showToast({
+						image:"/static/logo.png",
+						title:item.key
+					})
+				}else {
+					uni.navigateTo({
+					    url: '/pages/life/timeline?id=1&name=uniapp',
+						animationType: 'pop-in',
+						animationDuration: 260
+					});
+				}
+
+				console.log(item)
 			},
 			switchYear: function(e){
 				this.days = this.getDay(this.years[e.detail.value])
@@ -97,10 +93,26 @@
 				let days = year%4==0 && year%100!=0 || year%400==0 ? 366 : 365
 				//指定年第一天星期几
 				let firstDay = day == 0?7:day
-				//
-				//year = year+'';Math.ceil(( new Date(year,0,1) - new Date(year))/(24*60*60*1000))+1;
-				return {'days': days,'firstDay': firstDay}
+				
+				let everyday = []
+				for (let i=0; i<12; i++){
+					let dayCount = this.monthDay[i] || (days==366? 29 : 28);
+					for (let j=1; j<=dayCount; j++){
+						let m = i+1
+						m = m < 10?'0'+m:m
+						let d = j
+						d = d< 10?'0'+d:d
+						everyday.push({key:year+"-"+m+"-"+d})
+					}
+				}
+				this.fetchData(year)
+				return {'days': everyday,'firstDay': firstDay}
 			},
+			fetchData(year){
+				getYearEvents(year).then((resp) => {
+					this.data = resp
+				})
+			}
 			
 		}
 	}
