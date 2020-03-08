@@ -2,17 +2,50 @@ function formatTime(time) {
 	if (typeof time !== 'number' || time < 0) {
 		return time
 	}
-
 	var hour = parseInt(time / 3600)
 	time = time % 3600
 	var minute = parseInt(time / 60)
 	time = time % 60
 	var second = time
-
 	return ([hour, minute, second]).map(function (n) {
 		n = n.toString()
 		return n[1] ? n : '0' + n
 	}).join(':')
+}
+
+function datefomate1(value) {
+        if(value==null || value == undefined){
+            return "";
+        }
+        var date = new Date(value);
+        
+        var Y = date.getFullYear(),
+            m = date.getMonth()+1,
+            d = date.getDate(),
+            H = date.getHours(),
+            i = date.getMinutes(),
+            s = date.getSeconds();
+        return Y+'-'+m+'-'+d+' '+H+':'+i+':'+s;
+}
+function datefomate2(value) {
+        if(value==null || value == undefined){
+            return "";
+        }
+        var date = new Date(value);
+        
+        var m = date.getMonth()+1,
+            d = date.getDate();
+        return m+'-'+d;
+}
+function datefomate3(value) {
+        if(value==null || value == undefined){
+            return "";
+        }
+        var date = new Date(value);
+        
+        var H = date.getHours(),
+            i = date.getMinutes();
+        return H+':'+i;
 }
 
 function formatLocation(longitude, latitude) {
@@ -67,6 +100,11 @@ var dateUtils = {
 };
 
 module.exports = {
+	datefomate: {
+		f1:datefomate1,
+		f2:datefomate2,
+		f3:datefomate3
+	},
 	formatTime: formatTime,
 	formatLocation: formatLocation,
 	dateUtils: dateUtils

@@ -74,7 +74,7 @@
 					})
 				}else {
 					uni.navigateTo({
-					    url: '/pages/life/timeline?id=1&name=uniapp',
+					    url: '/pages/life/timeline?date=' + item.key,
 						animationType: 'pop-in',
 						animationDuration: 260
 					});

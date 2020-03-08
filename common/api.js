@@ -17,9 +17,12 @@ module.exports = {
 		return get("api/event/all")
 	},
 	updateStatusCompleted: function(id){
-		return post("api/event/completed/"+id)
+		return post("api/event/completed/" + id)
 	},
 	getYearEvents: function(year) {
-		return get("api/event/year/"+year)
+		return get("api/event/year/" + year)
+	},
+	getEventTimeLine: function(date) {
+		return get("api/event/neighbour/" + date)
 	}
 }

@@ -4,17 +4,17 @@
 
 
 		<view class="cu-timeline" v-for="(item,index) in data" :key="index">
-			<view class="cu-time">{{item[0].createTime}}</view>
+			<view class="cu-time">{{item[0].time1}}</view>
 			<view class="cu-item" 
 			:class="subitem.classify == 'INPUT'?'text-orange':(subitem.classify == 'OUTPUT'?'text-green':'text-red')"
 			v-for="(subitem,subindex) in item" :key="subindex">
 				<view class="content">
 					<view class="cu-capsule radius">
 						<view class="cu-tag bg-cyan">上午</view>
-						<view class="cu-tag line-cyan">{{subitem.createTime}}</view>
+						<view class="cu-tag line-cyan">{{subitem.time2}}</view>
 					</view>
 					<view class="margin-top">{{subitem.subject}}</view>
-					<view class="margin-top">描述信息小记记 , 小感感 , 小小得小记记 , 小感感 , 小小得</view>
+					<view class="margin-top">{{subitem.text}}</view>
 				</view>
 			</view>
 
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+	import {getEventTimeLine} from '../../common/api.js'
+	import {datefomate} from '../../common/util.js'
 	export default {
 		data() {
 			return {
@@ -48,8 +50,25 @@
 			};
 		},
 		onLoad: function (option) { 
-					console.log(option); 
-				}
+			if (option.date) {
+				this.fetchData(option.date)
+			}
+		},
+		methods:{
+			fetchData: function(date) {
+				getEventTimeLine(date).then((res) => {
+					res.forEach(e => {
+						console.log(e[0].createTime)
+						e[0].time1 = datefomate.f2(e[0].createTime)
+						console.log(e[0].time1)
+						e.forEach(child => {
+							child.time2 = datefomate.f3(child.updateTime)
+						})
+					})
+					this.data = res
+				})
+			}
+		}
 	}
 </script>
 
