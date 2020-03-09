@@ -12,8 +12,32 @@ function formatTime(time) {
 		return n[1] ? n : '0' + n
 	}).join(':')
 }
+function dateformat (date, fmt) {
+   if (/(y+)/.test(fmt)) {
+	   fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+   }
+   let o = {
+	   'M+': date.getMonth() + 1,
+	   'd+': date.getDate(),
+	   'h+': date.getHours(),
+	   'm+': date.getMinutes(),
+	   's+': date.getSeconds()
+   };
+   for (let k in o) {
+	   if (new RegExp(`(${k})`).test(fmt)) {
+		   let str = o[k] + '';
+		   //fmt = fmt.replace(RegExp.$1, str);
+		   fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+	   }
+   }
+   return fmt;
+}
 
-function datefomate1(value) {
+function padLeftZero (str) {
+   return ('00' + str).substr(str.length)
+}
+
+function dateformat1(value) {
         if(value==null || value == undefined){
             return "";
         }
@@ -27,7 +51,7 @@ function datefomate1(value) {
             s = date.getSeconds();
         return Y+'-'+m+'-'+d+' '+H+':'+i+':'+s;
 }
-function datefomate2(value) {
+function dateformat2(value) {
         if(value==null || value == undefined){
             return "";
         }
@@ -37,7 +61,7 @@ function datefomate2(value) {
             d = date.getDate();
         return m+'-'+d;
 }
-function datefomate3(value) {
+function dateformat3(value) {
         if(value==null || value == undefined){
             return "";
         }
@@ -100,10 +124,11 @@ var dateUtils = {
 };
 
 module.exports = {
-	datefomate: {
-		f1:datefomate1,
-		f2:datefomate2,
-		f3:datefomate3
+	dateformat: {
+		all:dateformat,
+		f1:dateformat1,
+		f2:dateformat2,
+		f3:dateformat3
 	},
 	formatTime: formatTime,
 	formatLocation: formatLocation,
