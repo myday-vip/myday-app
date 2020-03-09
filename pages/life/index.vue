@@ -20,13 +20,32 @@
 						<view class="text-center text-black text-bold" style="margin-top: 10rpx;" v-for="(item,index) in weekDays" :key="index" >{{item}}</view>
 						<view style="background-color: #FFFFFF;" v-for="(item,index) in drawFirstDay" :key="index" ></view>
 				 		<view v-for="(item,index) in days.days" :key="index" >
-							<view v-if="!data[item.key]" class="day-deep-0" @click="dayClick(item)"></view>
-							<view v-else-if="data[item.key].length == 1" class="day-deep-1" @click="dayClick(item)"></view>
-							<view v-else-if="data[item.key].length == 2" class="day-deep-2" @click="dayClick(item)"></view>
-							<view v-else-if="data[item.key].length == 3" class="day-deep-3" @click="dayClick(item)"></view>
-							<view v-else-if="data[item.key].length == 4" class="day-deep-4" @click="dayClick(item)"></view>
-							<view v-else-if="data[item.key].length == 5" class="day-deep-5" @click="dayClick(item)"></view>
-							<view v-else-if="data[item.key].length >=8" class="day-deep-8" @click="dayClick(item)"></view>
+						<view :class="{'day-deep-0':!data[item.key],
+						'day-deep-1':data[item.key].length == 1,
+						'day-deep-2':data[item.key].length == 2,
+						'day-deep-3':data[item.key].length == 3,
+						'day-deep-4':data[item.key].length == 4,
+						'day-deep-5':data[item.key].length == 5,
+						'day-deep-8':data[item.key].length >5,
+						'day-deep-future':item.key > nowDate}"
+						:id="item.key == nowDate?'now-date':null" @click="dayClick(item)">
+								<block v-if="item.key == nowDate">
+									<view class="cu-tag badge bg-gradual-red" >
+										<block>今天</block>
+										<!-- {{item.key.substr(5)}} -->
+									</view>
+								</block>
+						</view>
+						
+<!-- 						<view :class="!data[item.key].length?'day-deep-0':(data[item.key].length == 1?'day-deep-1':(data[item.key].length == 2?'day-deep-2':(data[item.key].length == 3?'day-deep-3':(data[item.key].length == 4?'day-deep-4':(data[item.key].length == 5?'day-deep-5':'day-deep-8')))))"
+							:id="item.key == nowDate?'now-date':null" @click="dayClick(item)">
+							<block v-if="item.key == nowDate">
+								<view class="cu-tag badge bg-gradual-red" >
+									<block>今天</block>
+								</view>
+							</block>
+						</view> -->
+						
 						</view>
 				 	</view>
 				 </view>
@@ -40,6 +59,7 @@
 
 <script>
 	import {getYearEvents} from '../../common/api.js'
+	import {dateformat} from '../../common/util.js'
 	export default {
 		data() {
 			return {
@@ -52,7 +72,8 @@
 					years:[2020,2019,2018],//TODO DData
 					currentYearLabel:'',
 					weekDays:['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'],
-					data:{}
+					data:{},
+					nowDate: dateformat.all(new Date(),"yyyy-MM-dd")
 				}
 		},
 		computed:{
@@ -60,18 +81,44 @@
 				return this.days.firstDay-1
 			}
 		},
+		filters:{
+			rectClass(item){
+				console.log(item)
+			}
+		},
 		onReady() {
 			console.log("onready")
 			this.days = this.getDay(this.years[0])
+		},
+		updated: function () {
+			let windowHeight = 0
+			try{
+				windowHeight = uni.getSystemInfoSync().windowHeight
+			}catch(e){}
+			
+			uni.createSelectorQuery().in(this).select("#now-date").boundingClientRect((res)=>{
+				let scrollto = res.top
+				let duration = 2000
+				if (windowHeight >0){
+					let t = scrollto - windowHeight/2
+					scrollto = t>0?t:scrollto
+				}
+				if (scrollto < windowHeight/2) {
+					duration = 1000
+				}
+				uni.pageScrollTo({
+					duration:duration,
+					scrollTop:scrollto
+				})
+			}).exec()
+			
 		},
 		methods: {
 			dayClick: function(item){
 				let day = this.data[item.key]
 				if (!day){
-					uni.showToast({
-						image:"/static/logo.png",
-						title:item.key
-					})
+
+					
 				}else {
 					uni.navigateTo({
 					    url: '/pages/life/timeline?date=' + item.key,
@@ -80,7 +127,6 @@
 					});
 				}
 
-				console.log(item)
 			},
 			switchYear: function(e){
 				this.days = this.getDay(this.years[e.detail.value])
@@ -101,7 +147,7 @@
 						let m = i+1
 						m = m < 10?'0'+m:m
 						let d = j
-						d = d< 10?'0'+d:d
+						d = d< 10?'0'+d:d,
 						everyday.push({key:year+"-"+m+"-"+d})
 					}
 				}
@@ -120,6 +166,10 @@
 </script>
 
 <style>
+	.day-deep-future {
+		background-color: #f4f8f9;
+		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
+	}
 	.day-deep-0 {
 		background-color: #E7EBED;
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
@@ -175,5 +225,10 @@
 	}
 	.grid.col-7>view {
 		width: 20%;
+	}
+	.now-date {
+		border-width: 0.1rpx;
+		border-color: red;
+		border-style: solid;
 	}
 </style>

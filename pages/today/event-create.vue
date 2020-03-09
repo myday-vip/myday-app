@@ -177,6 +177,8 @@
 				})
 			},
 			createEvent(){
+				//FIXME 必填格式验证
+				
 				addEvent(this.eventStone).then((data) => {
 					if (data.id) {
 						uni.showToast({
@@ -200,14 +202,11 @@
 			chooseImage() {
 				uni.chooseImage({
 					count: 4, //默认9
-					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-					sourceType: ['album'], //从相册选择
+					//sizeType: ['original', 'compressed'], 
+					//sourceType: ['album','camera'], 
 					success: (res) => {
-						if (this.eventStone.imgList.length != 0) {
-							this.eventStone.imgList = this.imgList.concat(res.tempFilePaths)
-						} else {
-							this.eventStone.imgList = res.tempFilePaths
-						}
+						console.log(res)
+						this.eventStone.imgList.push(res.tempFilePaths)
 					}
 				});
 			},
