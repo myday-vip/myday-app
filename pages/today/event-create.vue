@@ -101,6 +101,7 @@
 
 <script>
 	import {addEvent,getAllEvent} from '../../common/api.js'
+	import {upload} from '../../common/request.js'
 	import {storage} from '../../common/storage.js'
 	import inputAutocomplete from '@/components/pro/input-autocomplete.vue';
 	export default{
@@ -122,6 +123,7 @@
 					classify: null,//this.$store.state.constants.event.classify.INPUT,
 					type: this.$store.state.constants.event.type.GENERIC,
 					status: "FULFILL",
+					show: [],
 					imgList:[]
 				},
 				addStyle: false,
@@ -179,25 +181,54 @@
 			createEvent(){
 				//FIXME 必填格式验证
 				
-				addEvent(this.eventStone).then((data) => {
-					if (data.id) {
-						uni.showToast({
-							title:'记录点滴'
-						})
-						uni.$emit('event:created',null)
-						this.addStyle = false
-						this.eventStone= {
-							subject: "",
-							text: "",
-							classify: null,
-							type: this.$store.state.constants.event.type.GENERIC,
-							status: "FULFILL",
-							imgList:[]
+				var push = () => {
+					addEvent(this.eventStone).then((data) => {
+						if (data.id) {
+							uni.showToast({
+								title:'记录点滴'
+							})
+							uni.$emit('event:created',null)
+							this.addStyle = false
+							this.eventStone= {
+								subject: "",
+								text: "",
+								classify: null,
+								type: this.$store.state.constants.event.type.GENERIC,
+								status: "FULFILL",
+								show: [],
+								imgList:[]
+							}
 						}
-					}
-				}).catch((e) => {
-					console.error(e)
-				})
+					}).catch((e) => {
+						console.error(e)
+					})
+				}
+				
+				if (this.eventStone.imgList.length >0){
+					var i = 1
+					var uploadCompleted = 0
+					this.eventStone.imgList.forEach(async img => {
+						uni.showLoading({
+							title:"上传第"+(i++)+"张照片"
+						})
+						const uploadTask = upload(img, (res) => {
+							this.eventStone.show.push({type:"PICTURE",value:res.id})
+						}, (res) => {
+							if (++uploadCompleted == this.eventStone.imgList.length) {
+								push()
+							}
+						})
+						uploadTask.onProgressUpdate((res) => {
+							//console.log(res)
+							//console.log('上传进度' + res.progress);
+							//console.log('已经上传的数据长度' + res.totalBytesSent);
+							//console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend);
+							uni.hideLoading()
+						});
+					})
+					
+				}
+
 			},
 			chooseImage() {
 				uni.chooseImage({
@@ -205,8 +236,26 @@
 					//sizeType: ['original', 'compressed'], 
 					//sourceType: ['album','camera'], 
 					success: (res) => {
-						console.log(res)
-						this.eventStone.imgList.push(res.tempFilePaths)
+						//this.eventStone.imgList.push(res.tempFilePaths)
+						for (let i = 0, len = res.tempFiles.length; i < len; i++) {
+							res.tempFiles[i]['upload_percent'] = 0;
+							if (Math.ceil(res.tempFiles[i].size / 1024) < 5 * 1024) {
+								//this.eventStone.imgList_size.push(Math.ceil(res.tempFiles[i].size / 1024));
+								this.eventStone.imgList.push(res.tempFiles[i].path);
+							} else {
+								res.tempFilePaths.splice(i, 1);
+								_self.upload_exceeded_list.push(i === 0 ? 1 : i + 1);
+								uni.showModal({
+									title: '提示',
+									content: '照片过大不能上传哟',
+									showCancel: false,
+									confirmText: '确认',
+									success(res) {
+										console.log(res)
+									}
+								});
+							}
+						}
 					}
 				});
 			},

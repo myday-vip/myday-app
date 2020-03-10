@@ -207,7 +207,7 @@
 		border-width: 0.1rpx;
 		border-color: white;
 		border-style: solid;
-		border-radius: 0;
+		border-radius: 10;
 		position: relative;
 		overflow: hidden;
 	}

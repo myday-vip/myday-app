@@ -12,6 +12,33 @@ function setToken(token){
 		console.error(e)
 	}
 }
+
+var base_url = "http://localhost:8080/"
+
+function upload(filePath, successFun, completeFun){
+	return uni.uploadFile({
+		url: base_url + "api/attachments/upload",
+		filePath: filePath,
+		fileType: 'image', //支付宝必填
+		header: {'Authorization': 'Bearer ' + getToken()},
+		name: 'file',
+		success: (uploadFileRes) => {
+			successFun(JSON.parse(uploadFileRes.data))
+		},
+		fail: (res) => {
+			console.log(res)
+			uni.showToast({
+				image:'/static/logo.png',
+				title:'请检查网络'
+			})						
+		},
+		complete: (res) => {
+			completeFun(res)
+		}
+	});
+	
+}
+
 function request(url, postData, method, type, showLoading) {
 		//接口请求
 		if (showLoading) {
@@ -20,7 +47,7 @@ function request(url, postData, method, type, showLoading) {
 				title: '请稍候...'
 			})
 		}
-		url = "http://localhost:8080/" + url
+		url = base_url + url
 		const token = getToken()
 		var header = {}
 		if (token) {
@@ -79,6 +106,7 @@ function post(api,data){
 module.exports = {
 	get: get,
 	post: post,
+	upload: upload,
 	setToken: setToken,
 	getToken: getToken
 }

@@ -39,7 +39,7 @@
 		methods:{
 			fetchEvent(){
 				getEvent().then((res) => {
-					var now =new Date().getTime();
+					var now = new Date().getTime();
 					res.forEach(e => {
 						e.updateTimeLabel = dateUtils.humanize(now-e.updateTime)
 					})
