@@ -29,7 +29,9 @@
 				</view>
 				<view class="cu-form-group">
 					<view class="title">笔笔</view>
-					<input v-model="eventStone.text" placeholder="这一刻的想法心得……" ></input>
+					<textarea v-model="eventStone.text" :style="{height:(eventStone.text.length >5?'130rpx':'45rpx')}"  maxlength="200"  placeholder="这一刻的想法心得……"></textarea>
+					
+					<!-- <input v-model="eventStone.text" placeholder="这一刻的想法心得……" ></input> -->
 				</view>
 				<view class="cu-form-group">
 					<view>
@@ -261,7 +263,9 @@
 						this.eventStone.show.push({type:"LOCATION",value:JSON.stringify(this.eventStone.location)})
 						this.eventStone.location = null
 					}
-					this.eventStone.show.push({type:"LINK",value: this.linkValue})
+					if (this.linkValue){
+						this.eventStone.show.push({type:"LINK",value: this.linkValue})
+					}
 					
 					addEvent(this.eventStone).then((data) => {
 						if (data.id) {
@@ -310,6 +314,8 @@
 						});
 					})
 					
+				}else {
+					push()
 				}
 
 			},

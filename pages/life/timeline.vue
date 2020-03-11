@@ -17,10 +17,10 @@
 						</view>
 					</view>
 					<view class="desc">
-						<view class="text-content"> {{subitem.text || ""}}</view>
+						<view class="text-content" style="white-space: pre-wrap;padding: 30upx 0;"> {{subitem.text || ""}}</view>
 						<!-- 图片 -->
 						<block v-if="subitem.show2.length > 0">
-							<view class="grid flex-sub col-3 grid-square" style="padding-top: 30rpx;">
+							<view class="grid flex-sub col-3 grid-square">
 								<view v-for="(ssitem,ssindex) in subitem.show2" :key="ssindex" 
 								class="bg-img" 
 								:style="{backgroundImage:'url(http://localhost:8080/' + ssitem.val1+ ')'}"
@@ -148,7 +148,6 @@
 				this.bigImg.url = data.val2
 				this.bigImg.width = data.val3
 				this.bigImg.height = data.val4
-				console.log(this.bigImg)
 			},
 			fetchData: function(date) {
 				this.currentDate = date
