@@ -79,6 +79,7 @@
 				}
 			},
 			fetchLocation(key){
+				//console.log(key)
 				uni.showLoading({
 						title: '获取位置信息'  
 				});
@@ -89,7 +90,7 @@
 				amapPlugin.getRegeo({
 					success: (data) => {  
 						uni.hideLoading()
-						
+						//console.log(data)
 						let plist = []
 						for (let i=0; i<data.length; i++ ) {
 							let obj = data[i]

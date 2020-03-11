@@ -225,7 +225,8 @@
 				this.modalName = null
 			},
 			gotLocation(data){
-				if (data){
+				//console.log(data)
+				if (data && data.name.length > 0){
 					this.eventStone.location = {"name": data.city + " · " + data.name, "location":data.location}
 				}else {
 					this.eventStone.location = {}

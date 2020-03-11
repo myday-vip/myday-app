@@ -8,7 +8,7 @@
 			<view class="cu-item" 
 			:class="subitem.classify == 'INPUT'?'text-orange':(subitem.classify == 'OUTPUT'?'text-green':'text-red')"
 			v-for="(subitem,subindex) in item" :key="subindex">
-				<view class="content" style="background-color: #f4f8f9;">
+				<view class="content" style="background-color: #fafafa;">
 					<view class="flex solid-bottom justify-between">
 						<view class="nav-title">{{subitem.subject}}</view>
 						<view class="cu-capsule radius">
@@ -17,13 +17,13 @@
 						</view>
 					</view>
 					<view class="desc">
-						<view class="text-content" style="white-space: pre-wrap;padding: 30upx 0;"> {{subitem.text || ""}}</view>
+						<view v-if="subitem.text" class="text-content" style="white-space: pre-wrap;padding: 30upx 0;"> {{subitem.text}}</view>
 						<!-- 图片 -->
 						<block v-if="subitem.show2.length > 0">
 							<view class="grid flex-sub col-3 grid-square">
 								<view v-for="(ssitem,ssindex) in subitem.show2" :key="ssindex" 
 								class="bg-img" 
-								:style="{backgroundImage:'url(http://localhost:8080/' + ssitem.val1+ ')'}"
+								:style="{backgroundImage:'url(' + base_url_sso + ssitem.val1+ ')'}"
 								@tap="showmodel(ssitem)">
 								</view>
 							</view>
@@ -42,7 +42,7 @@
 							</view>
 						</block>
 						
-						<view>
+						<view style="padding-top: 18upx;">
 							<view v-if="subitem.classify == 'INPUT'" class="cu-tag bg-red light sm round">输入</view>
 							<view v-if="subitem.classify == 'OUTPUT'" class="cu-tag bg-green light sm round">输出</view>
 							<view v-if="subitem.classify == 'PHYSICAL_AGILITY'" class="cu-tag bg-gradual-orange light sm round">体能</view>
@@ -59,7 +59,7 @@
 		
 		<view class="cu-modal" id="imgModal" :class="modalName?'show':''" @touchstart="hideModal">
 			<view class="cu-dialog" >
-				<image :src="'http://localhost:8080/' + bigImg.url" mode="aspectFit"></image>
+				<image :src="base_url_sso + bigImg.url" mode="aspectFit"></image>
 			</view>
 		</view>
 		
@@ -69,9 +69,12 @@
 <script>
 	import {getEventTimeLine} from '../../common/api.js'
 	import {dateformat} from '../../common/util.js'
+	import {baseUrlOss} from '../../common/request.js'
+	
 	export default {
 		data() {
 			return {
+				base_url_sso: baseUrlOss(),
 				modalName: null,
 				bigImg: {
 					url:null,
@@ -84,9 +87,21 @@
 			};
 		},
 		onLoad: function (option) { 
+			//this.base_url_sso = baseUrlOss()
 			if (option.date) {
 				this.fetchData(option.date)
 			}
+		},
+		onPageScroll: function(e){
+			if (e.scrollTop == 0){
+				this.fetchData2(false)
+			}
+		},
+		onReachBottom: function(){
+			this.fetchData2(true)
+		},
+		onPullDownRefresh: function(){
+			console.log("onPullDownRefresh")
 		},
 		updated: function () {
 			if (this.updatedNumber == 1){
@@ -162,6 +177,13 @@
 					})
 					this.data = res
 				})
+			},
+			fetchData2: function(tf){
+				if(tf){
+					//next
+				}else {
+					//previous
+				}
 			}
 		}
 	}

@@ -13,11 +13,13 @@ function setToken(token){
 	}
 }
 
-var base_url = "http://localhost:8080/"
+var base_url_api = "http://localhost:8080/"
+var base_url_oss = "http://localhost:8080/"
+
 
 function upload(filePath, successFun, completeFun){
 	return uni.uploadFile({
-		url: base_url + "api/attachments/upload",
+		url: base_url_api + "api/attachments/upload",
 		filePath: filePath,
 		fileType: 'image', //支付宝必填
 		header: {'Authorization': 'Bearer ' + getToken()},
@@ -47,7 +49,7 @@ function request(url, postData, method, type, showLoading) {
 				title: '请稍候...'
 			})
 		}
-		url = base_url + url
+		url = base_url_api + url
 		const token = getToken()
 		var header = {}
 		if (token) {
@@ -108,5 +110,8 @@ module.exports = {
 	post: post,
 	upload: upload,
 	setToken: setToken,
-	getToken: getToken
+	getToken: getToken,
+	baseUrlOss: function(){
+		return base_url_oss
+	}
 }

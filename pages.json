@@ -9,7 +9,8 @@
 		{
 			"path": "pages/life/timeline",
 			"style": {
-				"navigationBarTitleText": "事件"
+				"navigationBarTitleText": "事件",
+				"enablePullDownRefresh": false
 			}
 		}
 	    ,{
