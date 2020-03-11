@@ -110,7 +110,7 @@
 					<textarea v-model="linkValue" style="height: 30upx;" maxlength="200"  placeholder="直接粘贴自剪切板 或 输入链接地址"></textarea>
 				</view>
 				<view class="cu-bar bg-white">
-					<view class="action margin-0 flex-sub text-green ">
+					<view class="action margin-0 flex-sub text-green " @tap="fetchClipData">
 						<text class="cuIcon-copy"></text>粘贴
 					</view>
 					<view class="action margin-0 flex-sub solid-left" @tap="hideModal(false)">取消</view>
@@ -200,11 +200,27 @@
 			
 		},
 		methods:{
+			fetchClipData(){
+				var _this = this
+				uni.getClipboardData({
+					success: function (res) {
+						_this.linkValue = res.data
+					}
+				});	
+			},
 			hideModal(tf){
-				this.modalName = null
-				if (!tf){
+				if (tf){
+					if (this.linkValue.indexOf("http") != 0){
+						uni.showToast({
+							image:"/static/logo.png",
+							title:"不是超链接哟"
+						})
+						return
+					}
+				}else{
 					this.linkValue = null
 				}
+				this.modalName = null
 			},
 			gotLocation(data){
 				if (data){

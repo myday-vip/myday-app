@@ -82,6 +82,7 @@
 				uni.showLoading({
 						title: '获取位置信息'  
 				});
+				//https://lbs.amap.com/api/wx/guide/get-data/regeo
 				var amapPlugin = new amap.AMapWX({
 					key: key
 				});
