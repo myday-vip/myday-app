@@ -12,7 +12,13 @@
 				"navigationBarTitleText": "事件"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/userLocation/index",
+            "style" : {
+				"navigationBarTitleText": "所在位置"
+			}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTitleText": "我的天啊",
 		"navigationBarBackgroundColor": "#F8F8F8",

@@ -1,109 +1,131 @@
 <template>
-	<form  class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
-		<view class="cu-form-group">
-			<button class="margin-sm basis-sm shadow cu-btn bg-gradual-orange" 
-			:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/index.jpg)':''}"
-			 @click="selectClassify($store.state.constants.event.classify.INPUT)">
-			 输入
-			 </button>
-			<button class="margin-sm basis-sm shadow cu-btn bg-gradual-green" 
-			:style="{backgroundImage:eventStone.classify == 'OUTPUT'?'url(/static/index.jpg)':''}"
-			@click="selectClassify($store.state.constants.event.classify.OUTPUT)" >输出</button>
-			<button class="margin-sm basis-sm shadow cu-btn bg-orange" 
-			:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/index.jpg)':''}"
-			@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
-		</view>
-		<view v-show="showall" class="animation-slide-bottom" style="animation: show 1.2s;">
+	<view>
+		<form  class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
 			<view class="cu-form-group">
-				<view class="title">主题</view>
-				<input-autocomplete
-				style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;font-size: 30rpx;color: #555;padding-right: 20rpx;box-sizing: border-box;"
-				:placeholder="eventSubjectPlaceholder"
-				 v-model="eventStone.subject"
-				 :value="eventStone.subject" 
-				 highlightColor="#FF0000" 
-				 :stringList="events" 
-				 min="1"
-				 v-on:selectItem="selectSubjectItem"></input-autocomplete>
+				<button class="margin-sm basis-sm shadow cu-btn bg-gradual-orange" 
+				:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/index.jpg)':''}"
+				 @click="selectClassify($store.state.constants.event.classify.INPUT)">
+				 输入
+				 </button>
+				<button class="margin-sm basis-sm shadow cu-btn bg-gradual-green" 
+				:style="{backgroundImage:eventStone.classify == 'OUTPUT'?'url(/static/index.jpg)':''}"
+				@click="selectClassify($store.state.constants.event.classify.OUTPUT)" >输出</button>
+				<button class="margin-sm basis-sm shadow cu-btn bg-orange" 
+				:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/index.jpg)':''}"
+				@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
 			</view>
-			<view class="cu-form-group">
-				<view class="title">小记</view>
-				<input v-model="eventStone.text" placeholder="小记记 , 小感感 , 小小得" ></input>
-			</view>
-			<view class="cu-form-group">
-				<view>
-					<view v-show="eventType">
-						<view class="cu-tag round lg" :class="eventStone.type == 'EVERYDAY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'EVERYDAY'">每日</view>
-						<view class="cu-tag round lg" :class="eventStone.type == 'WEEKLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'WEEKLY'">每周</view>
-						<view class="cu-tag round lg" :class="eventStone.type == 'MONTHLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'MONTHLY'">每月</view>
-					</view>
+			<view v-show="showall" class="animation-slide-bottom" style="animation: show 1.2s;">
+				<view class="cu-form-group">
+					<view class="title">主题</view>
+					<input-autocomplete
+					style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;font-size: 30rpx;color: #555;padding-right: 20rpx;box-sizing: border-box;"
+					:placeholder="eventSubjectPlaceholder"
+					 v-model="eventStone.subject"
+					 :value="eventStone.subject" 
+					 highlightColor="#FF0000" 
+					 :stringList="events" 
+					 min="1"
+					 v-on:selectItem="selectSubjectItem"></input-autocomplete>
 				</view>
-				<view>
-					<switch class='orange radius margin-sm' 
-					:checked="eventStatus"
-					@change="switchStatus"></switch>&nbsp;&nbsp;{{eventStatusLabel}}
-					<switch class='orange radius margin-sm switch-day'
-					:checked="eventType"
-					@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
+				<view class="cu-form-group">
+					<view class="title">笔笔</view>
+					<input v-model="eventStone.text" placeholder="这一刻的想法心得……" ></input>
 				</view>
-			</view>
-			<view class="cu-bar bg-white" style="border-top: 1rpx solid #eee;">
-				<view class="action">
-					时光上传
-				</view>
-				<view class="action">
-					{{eventStone.imgList.length}}/4
-				</view>
-			</view>
-			<view class="cu-form-group" style="border-top: 0;">
-				<view class="grid col-4 grid-square flex-sub">
-					<view class="bg-img" v-for="(item,index) in eventStone.imgList" :key="index" @tap="viewImage" :data-url="eventStone.imgList[index]">
-					 <image :src="eventStone.imgList[index]" mode="aspectFill"></image>
-						<view class="cu-tag bg-red" @tap.stop="delImg" :data-index="index">
-							<text class='cuIcon-close'></text>
+				<view class="cu-form-group">
+					<view>
+						<view v-show="eventType">
+							<view class="cu-tag round lg" :class="eventStone.type == 'EVERYDAY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'EVERYDAY'">每日</view>
+							<view class="cu-tag round lg" :class="eventStone.type == 'WEEKLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'WEEKLY'">每周</view>
+							<view class="cu-tag round lg" :class="eventStone.type == 'MONTHLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'MONTHLY'">每月</view>
 						</view>
 					</view>
-					<view class="solids" @tap="chooseImage" v-if="eventStone.imgList.length<4">
-						<text class='cuIcon-cameraadd'></text>
+					<view>
+						<switch class='orange radius margin-sm' 
+						:checked="eventStatus"
+						@change="switchStatus"></switch>&nbsp;&nbsp;{{eventStatusLabel}}
+						<switch class='orange radius margin-sm switch-day'
+						:checked="eventType"
+						@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
+					</view>
+				</view>
+				<view class="cu-bar bg-white" style="border-top: 1rpx solid #eee;">
+					<view class="action">
+						时光上传
+					</view>
+					<view class="action">
+						{{eventStone.imgList.length}}/4
+					</view>
+				</view>
+				<view class="cu-form-group" style="border-top: 0;">
+					<view class="grid col-4 grid-square flex-sub">
+						<view class="bg-img" v-for="(item,index) in eventStone.imgList" :key="index" @tap="viewImage" :data-url="eventStone.imgList[index]">
+						 <image :src="eventStone.imgList[index]" mode="aspectFill"></image>
+							<view class="cu-tag bg-red" @tap.stop="delImg" :data-index="index">
+								<text class='cuIcon-close'></text>
+							</view>
+						</view>
+						<view class="solids" @tap="chooseImage" v-if="eventStone.imgList.length<4">
+							<text class='cuIcon-cameraadd'></text>
+						</view>
+					</view>
+				</view>
+				<view class="cu-form-group" style="border-top: 0;" @click="fetchPosition">
+					<view class="title">
+						<text class="margin-right-xs" :class="eventStone.location.location?'cuIcon-locationfill':'cuIcon-location'"></text>
+						<text>{{eventStone.location.name || "所在位置"}}</text>
+					</view>
+					<view>
+						<text class="cuIcon-right"></text>
+					</view>
+				</view>
+				<view class="cu-form-group" style="border-top: 0;" @click="modalName='modalLink'">
+					<view class="title">
+						<text class="cuIcon-link margin-right-xs"></text>
+						<text>{{linkValue || '链接'}}</text>
+					</view>
+					<view>
+						<text class="cuIcon-right"></text>
+					</view>
+				</view>
+				<view class="cu-form-group">
+					<view>
+					</view>
+					<view>
+						<button @click="createEvent" class="margin-sm basis-sm shadow cu-btn bg-green" style="padding: 0 50upx;">
+						保&nbsp;&nbsp;&nbsp;&nbsp;存
+						</button>
 					</view>
 				</view>
 			</view>
-			<view class="cu-form-group" style="border-top: 0;">
-				<view class="title">
-					<text class="cuIcon-location margin-right-xs"></text>
-					<text>所在位置</text>
+		</form>
+		<view class="cu-modal" :class="modalName=='modalLink'?'show':''">
+			<view class="cu-dialog">
+				<view class="cu-bar bg-white justify-end">
+					<view class="content">超链接</view>
+					<view class="action" @tap="hideModal">
+						<text class="cuIcon-close text-red"></text>
+					</view>
 				</view>
-				<view>
-					<text class="cuIcon-right"></text>
+				<view class="padding-xl">
+					<textarea v-model="linkValue" style="height: 30upx;" maxlength="200"  placeholder="直接粘贴自剪切板 或 输入链接地址"></textarea>
 				</view>
-			</view>
-			<view class="cu-form-group" style="border-top: 0;">
-				<view class="title">
-					<text class="cuIcon-link margin-right-xs"></text>
-					<text>链接</text>
-				</view>
-				<view>
-					<text class="cuIcon-right"></text>
-				</view>
-			</view>
-			<view class="cu-form-group">
-				<view>
-				</view>
-				<view>
-					<button @click="createEvent" class="margin-sm basis-sm shadow cu-btn bg-green" style="padding: 0 50upx;">
-					保&nbsp;&nbsp;&nbsp;&nbsp;存
-					</button>
+				<view class="cu-bar bg-white">
+					<view class="action margin-0 flex-sub text-green ">
+						<text class="cuIcon-copy"></text>粘贴
+					</view>
+					<view class="action margin-0 flex-sub solid-left" @tap="hideModal(false)">取消</view>
+					<view class="action margin-0 flex-sub text-green solid-left" @tap="hideModal(true)">确定</view>
 				</view>
 			</view>
 		</view>
-	</form>
+	</view>
 </template>
 
 <script>
 	import {addEvent,getAllEvent} from '../../common/api.js'
 	import {upload} from '../../common/request.js'
 	import {storage} from '../../common/storage.js'
-	import inputAutocomplete from '@/components/pro/input-autocomplete.vue';
+	import inputAutocomplete from '@/components/pro/input-autocomplete.vue'
 	export default{
 		components: {
 					inputAutocomplete
@@ -124,11 +146,24 @@
 					type: this.$store.state.constants.event.type.GENERIC,
 					status: "FULFILL",
 					show: [],
+					location: {},
 					imgList:[]
 				},
 				addStyle: false,
+				modalName: null,
+				linkValue: null,
 				events:[]
 			}
+		},
+		onLoad() {
+			uni.authorize({
+			    scope: 'scope.userLocation',
+			    success() {
+					console.log("确定授权位置")
+			        //uni.getLocation()
+			    }
+			})
+			
 		},
 		mounted() {
 			var temp = storage.get("storage:event:list")
@@ -138,6 +173,8 @@
 				this.events = temp
 			}
 			uni.$on('event:created',this.eventList)
+			
+
 			
 		},
 		computed: {
@@ -163,6 +200,27 @@
 			
 		},
 		methods:{
+			hideModal(tf){
+				this.modalName = null
+				if (!tf){
+					this.linkValue = null
+				}
+			},
+			gotLocation(data){
+				if (data){
+					this.eventStone.location = {"name": data.city + " · " + data.name, "location":data.location}
+				}else {
+					this.eventStone.location = {}
+				}
+			},
+			fetchPosition(){
+				uni.$once('loaction:checked',this.gotLocation)
+				uni.navigateTo({
+				    url: '/pages/userLocation/index',
+					animationType: 'slide-in-bottom',
+				});
+				
+			},
 			selectSubjectItem(data){
 				if (data || data.selectItem) {
 					this.eventStone.classify = data.selectItem.classify
@@ -182,6 +240,13 @@
 				//FIXME 必填格式验证
 				
 				var push = () => {
+					this.eventStone.imgList = null
+					if (this.eventStone.location){
+						this.eventStone.show.push({type:"LOCATION",value:JSON.stringify(this.eventStone.location)})
+						this.eventStone.location = null
+					}
+					this.eventStone.show.push({type:"LINK",value: this.linkValue})
+					
 					addEvent(this.eventStone).then((data) => {
 						if (data.id) {
 							uni.showToast({
@@ -196,8 +261,10 @@
 								type: this.$store.state.constants.event.type.GENERIC,
 								status: "FULFILL",
 								show: [],
-								imgList:[]
+								imgList:[],
+								location:{}
 							}
+							this.linkValue = null
 						}
 					}).catch((e) => {
 						console.error(e)

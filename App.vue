@@ -34,6 +34,9 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		globalData: {  
+			GD_KEY: '高德API KEY'  
 		}
 
 	}
