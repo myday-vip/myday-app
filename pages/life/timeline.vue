@@ -67,9 +67,10 @@
 </template>
 
 <script>
-	import {getEventTimeLine} from '../../common/api.js'
+	import {getEventTimeLine, getEventTimeLineNext, getEventTimeLinePrev} from '../../common/api.js'
 	import {dateformat} from '../../common/util.js'
 	import {baseUrlOss} from '../../common/request.js'
+	
 	
 	export default {
 		data() {
@@ -83,6 +84,7 @@
 				},
 				updatedNumber:0,
 				data:[],
+				hasPage:{next:true,prev:true},//是否可以翻页
 				currentDate: null//点击进来的时间 e.g:2020-01-01
 			};
 		},
@@ -164,25 +166,57 @@
 				this.bigImg.width = data.val3
 				this.bigImg.height = data.val4
 			},
+			processTimeData:function(res,first){
+				res.forEach( e => {
+					let updateTime = new Date(e[0].updateTime || e[0].createTime)
+					let fdate = dateformat.all(updateTime,"yyyy-MM-dd hh:mm")
+					let fdateArr = fdate.split(" ")
+					e[0].ftime = fdateArr[0]
+					e[0].time1 = fdateArr[0].substr(5)
+					//e[0].time2 = fdateArr[1]
+					if (first){
+						e[0].current = fdateArr[0] == this.currentDate
+					}
+				})
+			},
 			fetchData: function(date) {
 				this.currentDate = date
 				getEventTimeLine(date).then((res) => {
-					res.forEach( e => {
-						let updateTime = new Date(e[0].updateTime || e[0].createTime)
-						let fdate = dateformat.all(updateTime,"yyyy-MM-dd hh:mm")
-						let fdateArr = fdate.split(" ")
-						e[0].time1 = fdateArr[0].substr(5)
-						//e[0].time2 = fdateArr[1]
-						e[0].current = fdateArr[0] == this.currentDate
-					})
+					this.processTimeData(res,true)
 					this.data = res
 				})
 			},
 			fetchData2: function(tf){
 				if(tf){
 					//next
+					if(!this.hasPage.next) {
+						return
+					}
+					getEventTimeLineNext(this.data[this.data.length-1][0].ftime).then((res) => {
+						
+						if (res == null || res.length <=0){
+							this.hasPage.next = false
+							return
+						}
+						
+						this.processTimeData(res,false)
+						this.data = this.data.concat(res)
+					})
 				}else {
 					//previous
+					if(!this.hasPage.prev) {
+						return
+					}
+					getEventTimeLinePrev(this.data[0][0].ftime).then((res) => {
+						
+						if (res == null || res.length <=0){
+							this.hasPage.prev = false
+							return
+						}
+						
+						this.processTimeData(res,false)
+						this.data = res.concat(this.data)
+					})
 				}
 			}
 		}
