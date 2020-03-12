@@ -40,38 +40,16 @@
 			</view>
 		</view>
 		
-		<view class="cu-modal" :class="modalName=='confirmComplete'?'show':''">
-			<view class="cu-dialog">
-				<view class="bg-img" style="background-image: url('https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg');height:200px;">
-					<view class="cu-bar justify-end text-white">
-						<view class="action" @tap="hideModal">
-							<text class="cuIcon-close "></text>
-						</view>
-					</view>
-					<view class="padding-xl text-white" style="padding-top: 0;">
-						<view class="padding-xs text-xxl text-bold">
-							{{currentModel.title}}
-						</view>
-						<view class="padding-xs text-lg">
-							{{currentModel.subtitle}}
-						</view>
-					</view>
-				</view>
-				<view class="cu-bar bg-white">
-					<view class="action margin-0 flex-sub  solid-left" @tap="hideModal(false)" v-if="currentModel.showCancel">取消</view>
-					<view class="action margin-0 flex-sub  solid-left bg-green" 
-					style="min-height: 100rpx;margin: 0;" 
-					@tap="hideModal(true)"
-					>{{currentModel.ok}}</view>
-				</view>
-			</view>
-		</view>
+		<event-update :showMain="modalName == 'confirmComplete'" 
+		:modelData="currentModel" 
+		@hide="modalName = null"
+		 style="width: 100%;height: 100%;"></event-update>
 		
 	</view>
 </template>
 
 <script>
-	import {updateStatusCompleted} from '../../common/api.js'
+	
 	export default {
 		props:{
 			events: {
@@ -90,6 +68,7 @@
 			}
 		},
 		methods:{
+
 			showCompletedModal(data){
 				this.modalName = "confirmComplete"
 				this.currentModel.id = data.id
@@ -112,17 +91,6 @@
 					this.currentModel.ok = "我已完成"
 				
 				}
-			},
-			hideModal(ok){
-				if (ok && this.modalName === "confirmComplete" && this.currentModel.ok !== "知道了"){
-					updateStatusCompleted(this.currentModel.id).then(() => {
-						uni.showToast({
-							title:"加油"
-						})
-						uni.$emit('event:updated',null)
-					})
-				}
-				this.modalName = null
 			},
 			// ListTouch触摸开始
 			ListTouchStart(e) {

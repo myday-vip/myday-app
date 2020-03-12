@@ -9,6 +9,8 @@ import today from './pages/today/today.vue'
 Vue.component('today',today)
 import eventCreate from './pages/today/event-create.vue'
 Vue.component('event-create',eventCreate)
+import eventupdate from './pages/today/event-update.vue'
+Vue.component('event-update',eventupdate)
 
 import life from './pages/life/index.vue'
 Vue.component('life',life)

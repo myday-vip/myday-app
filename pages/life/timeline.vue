@@ -59,7 +59,7 @@
 		
 		<view class="cu-modal" id="imgModal" :class="modalName?'show':''" @touchstart="hideModal">
 			<view class="cu-dialog" >
-				<image :src="base_url_sso + bigImg.url" mode="aspectFit"></image>
+				<image v-if="bigImg.url" :src="base_url_sso + bigImg.url" mode="aspectFit"></image>
 			</view>
 		</view>
 		

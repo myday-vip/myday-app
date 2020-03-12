@@ -16,8 +16,8 @@ module.exports = {
 	getAllEvent: function(){
 		return get("api/event/all")
 	},
-	updateStatusCompleted: function(id){
-		return post("api/event/completed/" + id)
+	updateStatusCompleted: function(id,data){
+		return post("api/event/completed/" + id,data)
 	},
 	getYearEvents: function(year) {
 		return get("api/event/year/" + year)
