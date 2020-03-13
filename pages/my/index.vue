@@ -59,6 +59,12 @@
 		<view class="cu-list menu sm-border margin-top" >
 			<view class="cu-item arrow" >
 				<view class="content">
+					<text class="cuIcon-footprint text-grey"></text>
+					<text class="text-grey">我的天啊</text>
+				</view>
+			</view>
+			<view class="cu-item arrow" @tap="toTimeline">
+				<view class="content">
 					<text class="cuIcon-timefill text-grey"></text>
 					<text class="text-grey">时间</text>
 				</view>
@@ -84,6 +90,7 @@
 <script>
 	import {login} from '../../common/api.js'
 	import {setToken,getToken} from '../../common/request.js'
+	import {dateformat} from '../../common/util.js'
 	export default{
 		data(){
 			return {
@@ -92,7 +99,6 @@
 			}
 		},
 		onLoad() {
-			console.log("onload")
 		},
 		onReady(){
 			if (getToken()){
@@ -100,6 +106,14 @@
 			}
 		},
 		methods:{
+			toTimeline(){
+				let date = dateformat.all(new Date(),"yyyy-MM-dd")
+				uni.navigateTo({
+				    url: '/pages/life/timeline?date=' + date,
+					animationType: 'pop-in',
+					animationDuration: 260
+				});
+			},
 			onGotWXUserInfo(msg){
 				console.log(msg)
 				if (msg.detail.errMsg === "getUserInfo:ok") {

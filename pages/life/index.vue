@@ -87,7 +87,6 @@
 			}
 		},
 		onReady() {
-			console.log("onready")
 			this.days = this.getDay(this.years[0])
 		},
 		updated: function () {
@@ -117,7 +116,10 @@
 			dayClick: function(item){
 				let day = this.data[item.key]
 				if (!day){
-
+					uni.showToast({
+						icon:'none',
+						title:item.key
+					})
 					
 				}else {
 					uni.navigateTo({

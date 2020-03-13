@@ -34,8 +34,8 @@
 					
 				</view>
 				<view class="move">
-					<!-- <view class="bg-red">删除</view> -->
-					<view class="bg-orange" @click="showCompletedModal(item)">完成</view>
+					<view v-if="item.type !== 'GENERIC'" class="bg-red" @click="showUpdateToFinalModal(item)">完结</view>
+					<view class="bg-green" @click="showCompletedModal(item)">完成</view>
 				</view>
 			</view>
 		</view>
@@ -45,11 +45,39 @@
 		@hide="modalName = null"
 		 style="width: 100%;height: 100%;"></event-update>
 		
+		<view class="cu-modal" :class="modalName=='updateToFinal'?'show':''">
+			<view class="cu-dialog">
+				<view class="bg-img" style="background-image: url('https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg');height:200px;">
+					<view class="cu-bar justify-end text-white">
+						<view class="action" @tap="modalName=null">
+							<text class="cuIcon-close "></text>
+						</view>
+					</view>
+					<view class="padding-xl text-white" style="padding-top: 0;">
+						<view class="padding-xs text-xxl text-bold">
+							{{currentModel.title}}
+						</view>
+						<view class="padding-xs text-lg" @tap="addStyle=true">
+							{{currentModel.subtitle}}
+						</view>
+					</view>
+				</view>
+				<view class="cu-bar bg-white">
+					<view class="action margin-0 flex-sub text-green " @tap="modalName=null">
+						<text class="cuIcon-footprint"></text>{{currentModel.analysis}}
+					</view>
+					<view class="action margin-0 flex-sub solid-left" 
+					style="min-height: 100rpx;margin: 0;background-color: #E7EBED;" @tap="modalName=null">取消</view>
+					<view class="action margin-0 flex-sub bg-orange solid-left"
+					 style="min-height: 100rpx;margin: 0;" @tap="updateToFinal">完结</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
-	
+	import {updateStatusFinal} from '../../common/api.js'
 	export default {
 		props:{
 			events: {
@@ -64,11 +92,30 @@
 				currentModel: {ok:"我已完成",showCancel:true},
 				modalName: null,
 				listTouchStart: 0,
-				listTouchDirection: null
+				listTouchDirection: null,
+				nowTime: new Date()
 			}
 		},
 		methods:{
-
+			updateToFinal(){
+				updateStatusFinal(this.currentModel.id).then((data) => {
+					uni.showToast({
+						title:"加油"
+					})
+					uni.$emit('event:updated',null)
+					this.modalName = null
+				}).catch((e) => {
+					console.error(e)
+				})
+			},
+			showUpdateToFinalModal(data){
+				this.modalName ='updateToFinal'
+				this.currentModel.id = data.id
+				this.currentModel.title = "又是一个里程碑"
+				console.log(this.nowTime)
+				this.currentModel.analysis =  "陪伴" + Math.floor((this.nowTime - new Date(data.createTime)) / (24 * 3600 * 1000)) + "天"
+				this.currentModel.subtitle = "你将完结「" + data.subject + "」，迎来一个全新的你自己。"
+			},
 			showCompletedModal(data){
 				this.modalName = "confirmComplete"
 				this.currentModel.id = data.id

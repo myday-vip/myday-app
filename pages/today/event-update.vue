@@ -4,7 +4,7 @@
 			<view class="cu-dialog" style="text-align: left;">
 				<view class="bg-img" :class="addStyle?'height_small':'height_big'" style="background-image: url('https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg');">
 					<view v-show="!addStyle" class="cu-bar justify-end text-white">
-						<view class="action" @tap="hideModal">
+						<view class="action" @tap="hideModal(false)">
 							<text class="cuIcon-close "></text>
 						</view>
 					</view>
@@ -158,7 +158,7 @@
 				});	
 			},
 			hideModal(ok){
-				if (ok && this.currentModel.ok !== "知道了"){
+				if (ok=== true && this.currentModel.ok !== "知道了"){
 					
 					var push = () => {
 						if (this.addStyle){
@@ -214,6 +214,7 @@
 					}
 					
 				}else {
+					this.addStyle = false
 					this.$emit('hide',null)
 				}
 				
