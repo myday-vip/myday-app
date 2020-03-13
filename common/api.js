@@ -1,10 +1,13 @@
-import {get,post} from './request.js'
+import {get,post,uploadCommon} from './request.js'
 
 
 module.exports = {
 	login: function(code,user){
 		user.code = code
 		return post("login_by_weixin", user)
+	},
+	updatePhoto: function(img,success){
+		return uploadCommon("api/user/photo",img,success)
 	},
 	// event
 	getEvent: function(){

@@ -23,7 +23,7 @@
 							<view class="grid flex-sub col-3 grid-square">
 								<view v-for="(ssitem,ssindex) in subitem.show2" :key="ssindex" 
 								class="bg-img" 
-								:style="{backgroundImage:'url(' + base_url_sso + ssitem.val1+ ')'}"
+								:style="{backgroundImage:'url(' + baseUrlOss(ssitem.val1)+ ')'}"
 								@tap="showmodel(ssitem)">
 								</view>
 							</view>
@@ -59,7 +59,7 @@
 		
 		<view class="cu-modal" id="imgModal" :class="modalName?'show':''" @touchstart="hideModal">
 			<view class="cu-dialog" >
-				<image v-if="bigImg.url" :src="base_url_sso + bigImg.url" mode="aspectFit"></image>
+				<image v-if="bigImg.url" :src="baseUrlOss(bigImg.url)" mode="aspectFit"></image>
 			</view>
 		</view>
 		
@@ -75,7 +75,6 @@
 	export default {
 		data() {
 			return {
-				base_url_sso: baseUrlOss(),
 				modalName: null,
 				bigImg: {
 					url:null,
@@ -154,6 +153,9 @@
 			}
 		},
 		methods:{
+			baseUrlOss: function(d){
+				return baseUrlOss(d)
+			},
 			hideModal: function(e){
 				if(e && e.target.id == 'imgModal'){
 					this.modalName = null

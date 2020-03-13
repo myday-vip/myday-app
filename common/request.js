@@ -17,15 +17,18 @@ var base_url_api = "http://localhost:8080/"
 var base_url_oss = "http://localhost:8080/"
 
 
-function upload(filePath, successFun, completeFun){
+function uploadCommon(path,filePath, successFun, completeFun){
+	console.log(filePath)
 	return uni.uploadFile({
-		url: base_url_api + "api/attachments/upload",
+		url: base_url_api + path,
 		filePath: filePath,
 		fileType: 'image', //支付宝必填
 		header: {'Authorization': 'Bearer ' + getToken()},
 		name: 'file',
 		success: (uploadFileRes) => {
-			successFun(JSON.parse(uploadFileRes.data))
+			if (successFun){
+				successFun(JSON.parse(uploadFileRes.data))
+			}
 		},
 		fail: (res) => {
 			console.log(res)
@@ -35,9 +38,15 @@ function upload(filePath, successFun, completeFun){
 			})						
 		},
 		complete: (res) => {
-			completeFun(res)
+			if(completeFun){
+				completeFun(res)
+			}
 		}
 	});
+	
+}
+function upload(filePath, successFun, completeFun){
+	return updateCommon("api/attachments/upload",filePath, successFun,completeFun)
 	
 }
 
@@ -108,10 +117,17 @@ function post(api,data){
 module.exports = {
 	get: get,
 	post: post,
+	uploadCommon: uploadCommon,
 	upload: upload,
 	setToken: setToken,
 	getToken: getToken,
-	baseUrlOss: function(){
-		return base_url_oss
+	baseUrlOss: function(url){
+		if (!url){
+			return null
+		}
+		if (url.indexOf("http")!=0){
+			url = base_url_oss + url
+		}
+		return url
 	}
 }

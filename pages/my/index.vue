@@ -1,6 +1,8 @@
 <template>
 	<view>
-		<view class="bg-img bg-mask flex align-center" style="background-image: url(../../static/index.jpg);height: 454upx;">
+		<view class="bg-img bg-mask flex align-center" style="height: 454upx;"
+		:style="{backgroundImage: 'url('+photo+')'}"
+		@tap="showMenu">
 <!-- 			<block v-if="isLogin === true">
 				<view class="padding-xl text-white">
 					<view class="padding-xs text-xxl text-bold">
@@ -84,28 +86,82 @@
 				</view>
 			</view>
 		</view>
+		
+		<view class="cu-modal bottom-modal" :class="modalName=='setMenu'?'show':''" @tap="modalName=null">
+			<view class="cu-dialog">
+
+				<view class="cu-list menu text-center text-xl">
+					<view class="cu-item" @tap="changePhoto">
+						<label class="flex justify-between align-center flex-sub">
+							<view class="flex-sub">更换封面</view>
+						</label>
+					</view>
+					<view class="cu-item">
+						<label class="flex justify-between align-center flex-sub">
+							<view class="flex-sub">取消</view>
+						</label>
+					</view>
+				</view>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
 <script>
-	import {login} from '../../common/api.js'
-	import {setToken,getToken} from '../../common/request.js'
+	import {login,updatePhoto} from '../../common/api.js'
+	import {setToken,getToken,baseUrlOss} from '../../common/request.js'
 	import {dateformat} from '../../common/util.js'
+	
 	export default{
 		data(){
 			return {
 				isLogin: false,
-				userInfo: {}
+				userInfo: {},//wx
+				userInfo2: {},//myday
+				photo:'../../static/index.jpg',
+				modalName: null,
 			}
 		},
-		onLoad() {
-		},
+		
 		onReady(){
+			var _this = this
 			if (getToken()){
 				this.isLogin = true
 			}
+			uni.getStorage({
+				key: 'MYDAY-USER',
+				success: function (res) {
+					console.log(res)
+					if(res && res.data){
+						_this.userInfo2 = JSON.parse(res.data);
+						_this.photo = baseUrlOss(_this.userInfo2.photo)
+					}
+					
+				}
+			});
 		},
 		methods:{
+			changePhoto(){
+				var _this = this
+				uni.chooseImage({
+				    count: 1,
+				    sizeType: ['original', 'compressed'],
+				    success: function (res) {
+						_this.photo = res.tempFilePaths[0]
+						updatePhoto(res.tempFilePaths[0],function(){
+							_this.userInfo2.photo = _this.photo
+							uni.setStorage({
+							    key: 'MYDAY-USER',
+							    data: JSON.stringify(_this.userInfo2)
+							});
+						})
+				    }
+				});
+			},
+			showMenu(){
+				this.modalName = "setMenu"
+			},
 			toTimeline(){
 				let date = dateformat.all(new Date(),"yyyy-MM-dd")
 				uni.navigateTo({
@@ -128,7 +184,6 @@
 				}
 			},
 			tologin(provider) {
-
 			    uni.login({
 			        provider: provider,
 			        // #ifdef MP-ALIPAY
@@ -137,8 +192,16 @@
 			        success: (res) => {
 			            console.log('login success:', res);
 						login(res.code,this.userInfo).then((res) => {
-							setToken(res.access_token)
+							setToken(res.auth.access_token)
 							this.isLogin = true
+							this.userInfo2 = res.info
+							if (res.info.photo){
+								this.photo = baseUrlOss(this.userInfo2.photo)
+							}
+							uni.setStorage({
+							    key: 'MYDAY-USER',
+							    data: JSON.stringify(res.info)
+							});
 						})
 			        },
 			        fail: (err) => {
