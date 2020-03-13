@@ -8,12 +8,17 @@
 							<text class="cuIcon-close "></text>
 						</view>
 					</view>
-					<view class="padding-xl text-white" style="padding-top: 0;">
+					<view class="margin-lr-xl text-white" style="padding-bottom: 25upx;">
 						<view class="padding-xs text-xxl text-bold">
 							{{currentModel.title}}
 						</view>
-						<view class="padding-xs text-lg" @tap="addStyle=true">
+						<view class="padding-xs text-lg" @tap="addStyle?addStyle=false:addStyle=true">
 							{{currentModel.subtitle}}
+						</view>
+					</view>
+					<view class="cu-bar justify-end text-white">
+						<view class="action" @tap="addStyle?addStyle=false:addStyle=true">
+							<text class="cuIcon-more "></text>
 						</view>
 					</view>
 				</view>
