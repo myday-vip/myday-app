@@ -46,6 +46,7 @@ image {
 	display: inline-block;
 	position: relative;
 	z-index: 0;
+	will-change: transform
 }
 
 image.loading::before {

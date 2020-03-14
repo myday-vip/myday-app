@@ -57,9 +57,13 @@
 		</view>
 		
 		
-		<view class="cu-modal" id="imgModal" :class="modalName?'show':''" @touchstart="hideModal">
+		<view class="cu-modal" id="imgModal" :class="modalName?'show':''" @click="hideModal">
 			<view class="cu-dialog" >
-				<image v-if="bigImg.url" :src="baseUrlOss(bigImg.url)" mode="aspectFit"></image>
+				<movable-area scale-area>
+					<movable-view direction="all" @scale="onScale" scale="true" scale-min="0.5" scale-max="4" >
+						<image v-if="bigImg.url" :src="baseUrlOss(bigImg.url)" mode="widthFix" ></image>
+					</movable-view>
+				</movable-area>
 			</view>
 		</view>
 		
@@ -157,10 +161,10 @@
 				return baseUrlOss(d)
 			},
 			hideModal: function(e){
-				if(e && e.target.id == 'imgModal'){
-					this.modalName = null
-				}
-				
+				// if(e && e.target.id == 'imgModal'){
+				// 	this.modalName = null
+				// }
+				this.modalName = null
 			},
 			showmodel: function(data){
 				this.modalName = "image"
@@ -227,7 +231,7 @@
 
 <style>
 .cu-dialog {
-	position: relative;
+	position: absolute;
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: auto;
@@ -237,5 +241,27 @@
 	background-color:transparent;
 	border-radius: 10upx;
 	overflow: hidden;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+}
+movable-view {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height:100%;
+}
+
+movable-area {
+	height: 100%;
+	width: 100%;
+	position:fixed;
+	overflow: hidden;
+}
+	
+movable-view image{
+	width:100%;
 }
 </style>

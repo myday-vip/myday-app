@@ -13,12 +13,11 @@ function setToken(token){
 	}
 }
 
-var base_url_api = "http://localhost:8080/"
-var base_url_oss = "http://localhost:8080/"
+var base_url_api = "http://172.20.10.2:8080/"
+var base_url_oss = "http://172.20.10.2:8080/"
 
 
 function uploadCommon(path,filePath, successFun, completeFun){
-	console.log(filePath)
 	return uni.uploadFile({
 		url: base_url_api + path,
 		filePath: filePath,
@@ -46,7 +45,7 @@ function uploadCommon(path,filePath, successFun, completeFun){
 	
 }
 function upload(filePath, successFun, completeFun){
-	return updateCommon("api/attachments/upload",filePath, successFun,completeFun)
+	return uploadCommon("api/attachments/upload",filePath, successFun,completeFun)
 	
 }
 
