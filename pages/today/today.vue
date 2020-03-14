@@ -7,7 +7,8 @@
 		</view>
 		<view class="cu-list menu-avatar">
 			<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in events" :key="index"
-			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index">
+			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
+			 @longpress="showMenu(item)">
 				<view class="cu-avatar round lg " 
 				:class="item.classify == 'INPUT'?'cuIcon-read':'cuIcon-write'"
 				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray'}"></view>
@@ -34,17 +35,18 @@
 					
 				</view>
 				<view class="move">
-					<view v-if="item.type !== 'GENERIC'" class="bg-red" @click="showUpdateToFinalModal(item)">完结</view>
 					<view class="bg-green" @click="showCompletedModal(item)">完成</view>
 				</view>
 			</view>
 		</view>
 		
+		<!-- 完成 -->
 		<event-update :showMain="modalName == 'confirmComplete'" 
 		:modelData="currentModel" 
 		@hide="modalName = null"
 		 style="width: 100%;height: 100%;"></event-update>
 		
+		<!-- 终结 -->
 		<view class="cu-modal" :class="modalName=='updateToFinal'?'show':''">
 			<view class="cu-dialog">
 				<view class="bg-img" style="background-image: url('https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg');height:200px;">
@@ -68,8 +70,32 @@
 					</view>
 					<view class="action margin-0 flex-sub solid-left" 
 					style="min-height: 100rpx;margin: 0;background-color: #E7EBED;" @tap="modalName=null">取消</view>
-					<view class="action margin-0 flex-sub bg-orange solid-left"
+					<view class="action margin-0 flex-sub bg-red solid-left"
 					 style="min-height: 100rpx;margin: 0;" @tap="updateToFinal">完结</view>
+				</view>
+			</view>
+		</view>
+		
+		<!-- 底部菜单 -->
+		<view class="cu-modal bottom-modal" :class="modalName=='menuModal'?'show':''">
+			<view class="cu-dialog">
+		
+				<view class="cu-list menu text-center text-xl">
+					<view class="cu-item" style="color: #FFFFFF;background-color: #39b54a;" @tap="showCompletedModal(currentLongPressObj)">
+						<label class="flex justify-between align-center flex-sub">
+							<view class="flex-sub">完&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;成</view>
+						</label>
+					</view>
+					<view v-if="currentLongPressObj.type !== 'GENERIC'" class=" cu-item" style="color: #FFFFFF;background-color: #e54d42;" @tap="showUpdateToFinalModal(currentLongPressObj)">
+						<label class="flex justify-between align-center flex-sub">
+							<view class="flex-sub">完&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结</view>
+						</label>
+					</view>
+					<view class="cu-item" @tap="modalName = null">
+						<label class="flex justify-between align-center flex-sub">
+							<view class="flex-sub">取消</view>
+						</label>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -91,6 +117,7 @@
 			return {
 				currentModel: {ok:"我已完成",showCancel:true},
 				modalName: null,
+				currentLongPressObj:{},
 				listTouchStart: 0,
 				listTouchDirection: null,
 				nowTime: new Date()
@@ -107,6 +134,10 @@
 				}).catch((e) => {
 					console.error(e)
 				})
+			},
+			showMenu(data){
+				this.currentLongPressObj = data
+				this.modalName ='menuModal'
 			},
 			showUpdateToFinalModal(data){
 				this.modalName ='updateToFinal'
@@ -154,7 +185,9 @@
 				if (this.listTouchDirection == 'left') {
 					this.modalName = e.currentTarget.dataset.target
 				} else {
-					this.modalName = null
+					if (this.modalName !== 'menuModal'){
+						this.modalName = null
+					}
 				}
 				this.listTouchDirection = null
 			}
