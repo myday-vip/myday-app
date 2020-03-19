@@ -59,7 +59,7 @@
 			</view>
 		</view>
 		<view class="cu-list menu sm-border margin-top" >
-			<view class="cu-item arrow" >
+			<view class="cu-item arrow" @tap="toMyday">
 				<view class="content">
 					<text class="cuIcon-footprint text-grey"></text>
 					<text class="text-grey">我的天啊</text>
@@ -132,7 +132,6 @@
 			uni.getStorage({
 				key: 'MYDAY-USER',
 				success: function (res) {
-					console.log(res)
 					if(res && res.data){
 						_this.userInfo2 = JSON.parse(res.data);
 						_this.photo = baseUrlOss(_this.userInfo2.photo)
@@ -142,6 +141,11 @@
 			});
 		},
 		methods:{
+			toMyday(){
+				uni.navigateTo({
+					url:'/pages/myday/index'
+				})
+			},
 			changePhoto(){
 				var _this = this
 				uni.chooseImage({
@@ -171,7 +175,6 @@
 				});
 			},
 			onGotWXUserInfo(msg){
-				console.log(msg)
 				if (msg.detail.errMsg === "getUserInfo:ok") {
 					this.userInfo = msg.detail.userInfo
 					this.tologin("weixin")
