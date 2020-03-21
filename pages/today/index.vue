@@ -1,6 +1,5 @@
 <template name="mainToday">
-	<view>
-		<scroll-view scroll-y class="page">
+	<view class="page">
 			<image src="/static/myday-banner2.png"
 			 mode="widthFix" class="response"></image>
 			<view class="nav-list" style="padding: 0rpx;">
@@ -15,7 +14,6 @@
 
 			</view>
 			<view class="cu-tabbar-height"></view>
-		</scroll-view>
 	</view>
 </template>
 

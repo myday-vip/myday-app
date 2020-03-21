@@ -152,9 +152,10 @@
 				    count: 1,
 				    sizeType: ['original', 'compressed'],
 				    success: function (res) {
-						_this.photo = res.tempFilePaths[0]
-						updatePhoto(res.tempFilePaths[0],function(){
-							_this.userInfo2.photo = _this.photo
+						//_this.photo = res.tempFilePaths[0]
+						updatePhoto(res.tempFilePaths[0],function(ud){
+							_this.userInfo2.photo = ud.photo
+							_this.photo = baseUrlOss(ud.photo)
 							uni.setStorage({
 							    key: 'MYDAY-USER',
 							    data: JSON.stringify(_this.userInfo2)

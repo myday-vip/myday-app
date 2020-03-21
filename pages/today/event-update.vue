@@ -92,7 +92,7 @@
 						</view>
 					</view>
 					<view class="padding-xl">
-						<textarea v-model="linkValue" style="height: 30upx;" maxlength="200"  placeholder="直接粘贴自剪切板 或 输入链接地址"></textarea>
+						<textarea v-model="linkValue" style="height: 50upx;" maxlength="200"  placeholder="直接粘贴自剪切板 或 输入链接地址"></textarea>
 					</view>
 					<view class="cu-bar bg-white">
 						<view class="action margin-0 flex-sub text-green " @tap="fetchClipData">
