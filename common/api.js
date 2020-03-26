@@ -36,5 +36,8 @@ module.exports = {
 	},
 	getEventTimeLinePrev: function(date) {
 		return get("api/event/neighbour/" + date + "/2")
+	},
+	getAllEventDetail: function() {
+		return get("api/event/all/detail")
 	}
 }

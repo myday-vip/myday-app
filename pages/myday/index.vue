@@ -4,19 +4,20 @@
 		
 		<view class="bg-white padding">
 			<view class="grid col-2 grid-square">
-				<view class="bg-img" v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]">
-					<view class=" text-white text-center" style="padding:20upx 0;">
+				<view class="bg-img" v-for="(item,index) in edata" :key="index" 
+				:style="[{ backgroundImage:'url('+ (item.classify == 'INPUT'?'/static/md-input.png':(item.classify == 'OUTPUT'?'/static/md-output.png':'/static/md-physical-agility.png')) +')' }]">
+					<view class=" text-green text-center stroke" style="padding:20upx 0">
 						<view class="padding-xs text-xl text-bold">
-							读《未来简史》
+							{{item.subject}}
 						</view>
 						<view class="padding-xs text-lg">
-							陪伴<text class="text-sl text-bold padding-xs">32</text>天
+							陪伴<text class="text-sl text-bold padding-xs">{{item.intervalDay}}</text>天
 						</view>
 						<view class=" text-sm" style="padding:10upx 0;">
-							2020/01/01 正月初五 周五
+							{{item.createTimeChineseDay}}
 						</view>
 						<view class="text-sm" style="padding:10upx 0;">
-							2020/02/28 三月二十 周日
+							{{item.updateTimeChineseDay}}
 						</view>
 					</view>
 				</view>
@@ -26,17 +27,22 @@
 </template>
 
 <script>
+	import {getAllEventDetail} from '../../common/api.js'
 	export default {
 		data() {
 			return {
-				avatar:['https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'],
-				edata:[{
-					
-				}]
+				edata:[]
 			}
 		},
+		onLoad: function(data){
+			this.fetchData()
+		},
 		methods: {
-			
+			fetchData: function(){
+				getAllEventDetail().then((res) => {
+					this.edata = res
+				})
+			}
 		}
 	}
 </script>
@@ -53,5 +59,9 @@
 	padding-bottom: calc((100% - 35upx)/2);
 	height: 0;
 	width: calc((100% - 35upx)/2);
+}
+.stroke {
+	text-shadow: #000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;
+
 }
 </style>
