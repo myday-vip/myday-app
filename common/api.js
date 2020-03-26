@@ -39,5 +39,8 @@ module.exports = {
 	},
 	getAllEventDetail: function() {
 		return get("api/event/all/detail")
+	},
+	getEventDetail: function(id){
+		return get("api/event/"+id+"/detail")
 	}
 }

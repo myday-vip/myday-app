@@ -4,7 +4,7 @@
 		
 		<view class="bg-white padding">
 			<view class="grid col-2 grid-square">
-				<view class="bg-img" v-for="(item,index) in edata" :key="index" 
+				<view class="bg-img" v-for="(item,index) in edata" :key="index" @tap="toDetail(item.id)"
 				:style="[{ backgroundImage:'url('+ (item.classify == 'INPUT'?'/static/md-input.png':(item.classify == 'OUTPUT'?'/static/md-output.png':'/static/md-physical-agility.png')) +')' }]">
 					<view class=" text-green text-center stroke" style="padding:20upx 0">
 						<view class="padding-xs text-xl text-bold">
@@ -42,6 +42,14 @@
 				getAllEventDetail().then((res) => {
 					this.edata = res
 				})
+			},
+			toDetail: function(id){
+				console.log(id)
+				uni.navigateTo({
+				    url: '/pages/myday/detail?id=' + id,
+					animationType: 'pop-in',
+					animationDuration: 260
+				});
 			}
 		}
 	}
