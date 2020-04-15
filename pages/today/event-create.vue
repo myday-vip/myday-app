@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<form  class="animation-slide-bottom" :style="[{animation: 'show ' + (1*0.2+1) + 's 1'}]">
+		<form  class="animation-slide-bottom">
 			<view class="cu-form-group">
 				<button class="margin-sm basis-sm shadow cu-btn bg-gradual-orange" 
 				:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/index.jpg)':''}"
@@ -14,90 +14,103 @@
 				:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/index.jpg)':''}"
 				@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
 			</view>
-			<view v-show="showall" class="animation-slide-bottom" style="animation: show 1.2s;">
-				<view class="cu-form-group">
-					<view class="title">主题</view>
-					<input-autocomplete
-					style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;font-size: 30rpx;color: #555;padding-right: 20rpx;box-sizing: border-box;"
-					:placeholder="eventSubjectPlaceholder"
-					 v-model="eventStone.subject"
-					 :value="eventStone.subject" 
-					 highlightColor="#FF0000" 
-					 :stringList="events" 
-					 min="1"
-					 v-on:selectItem="selectSubjectItem"></input-autocomplete>
-				</view>
-				<view class="cu-form-group">
-					<view class="title">笔笔</view>
-					<textarea v-model="eventStone.text" :style="{height:(eventStone.text.length >5?'130rpx':'45rpx')}"  maxlength="200"  placeholder="这一刻的想法心得……"></textarea>
-					
-					<!-- <input v-model="eventStone.text" placeholder="这一刻的想法心得……" ></input> -->
-				</view>
-				<view class="cu-form-group">
-					<view>
-						<view v-show="eventType">
-							<view class="cu-tag round lg" :class="eventStone.type == 'EVERYDAY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'EVERYDAY'">每日</view>
-							<view class="cu-tag round lg" :class="eventStone.type == 'WEEKLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'WEEKLY'">每周</view>
-							<view class="cu-tag round lg" :class="eventStone.type == 'MONTHLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'MONTHLY'">每月</view>
+			<view class="cu-modal bottom-modal " :class="showall?'show':''">
+				<view class="cu-dialog">
+					<view class="cu-bar bg-white">
+						<view v-if="eventStone.classify == 'INPUT'" class="content">输入</view>
+						<view v-if="eventStone.classify == 'OUTPUT'" class="content">输出</view>
+						<view v-if="eventStone.classify == 'PHYSICAL_AGILITY'" class="content">体能</view>
+					</view>
+					<view class="padding-sm">
+						<view class="cu-form-group">
+							<view class="title">主题</view>
+							<input-autocomplete
+							style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;font-size: 30rpx;color: #555;padding-right: 20rpx;box-sizing: border-box;"
+							:placeholder="eventSubjectPlaceholder"
+							 v-model="eventStone.subject"
+							 :value="eventStone.subject" 
+							 highlightColor="#FF0000" 
+							 :stringList="events" 
+							 min="1"
+							 v-on:selectItem="selectSubjectItem"></input-autocomplete>
 						</view>
-					</view>
-					<view>
-						<switch class='orange radius margin-sm' 
-						:checked="eventStatus"
-						@change="switchStatus"></switch>&nbsp;&nbsp;{{eventStatusLabel}}
-						<switch class='orange radius margin-sm switch-day'
-						:checked="eventType"
-						@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
-					</view>
-				</view>
-				<view class="cu-bar bg-white" style="border-top: 1rpx solid #eee;">
-					<view class="action">
-						时光上传
-					</view>
-					<view class="action">
-						{{eventStone.imgList.length}}/4
-					</view>
-				</view>
-				<view class="cu-form-group" style="border-top: 0;">
-					<view class="grid col-4 grid-square flex-sub">
-						<view class="bg-img" v-for="(item,index) in eventStone.imgList" :key="index" @tap="viewImage" :data-url="eventStone.imgList[index]">
-						 <image :src="eventStone.imgList[index]" mode="aspectFill"></image>
-							<view class="cu-tag bg-red" @tap.stop="delImg" :data-index="index">
-								<text class='cuIcon-close'></text>
+						<view class="cu-form-group">
+							<view class="title">笔笔</view>
+							<textarea v-model="eventStone.text" :style="{height:(eventStone.text.length >5?'130rpx':'45rpx')}"  maxlength="200"  placeholder="这一刻的想法心得……"></textarea>
+							
+							<!-- <input v-model="eventStone.text" placeholder="这一刻的想法心得……" ></input> -->
+						</view>
+						<view class="cu-form-group">
+							<view>
+								<view v-show="eventType">
+									<view class="cu-tag round lg" :class="eventStone.type == 'EVERYDAY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'EVERYDAY'">每日</view>
+									<view class="cu-tag round lg" :class="eventStone.type == 'WEEKLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'WEEKLY'">每周</view>
+									<view class="cu-tag round lg" :class="eventStone.type == 'MONTHLY'?'bg-orange':'bg-gray'" @click="eventStone.type = 'MONTHLY'">每月</view>
+								</view>
+							</view>
+							<view>
+								<switch class='orange radius margin-sm' 
+								:checked="eventStatus"
+								@change="switchStatus"></switch>&nbsp;&nbsp;{{eventStatusLabel}}
+								<switch class='orange radius margin-sm switch-day'
+								:checked="eventType"
+								@change="switchType"></switch>&nbsp;&nbsp;{{eventTypeLabel}}
 							</view>
 						</view>
-						<view class="solids" @tap="chooseImage" v-if="eventStone.imgList.length<4">
-							<text class='cuIcon-cameraadd'></text>
+						<view class="cu-bar bg-white" style="border-top: 1rpx solid #eee;">
+							<view class="action">
+								时光上传
+							</view>
+							<view class="action">
+								{{eventStone.imgList.length}}/4
+							</view>
+						</view>
+						<view class="cu-form-group" style="border-top: 0;">
+							<view class="grid col-4 grid-square flex-sub">
+								<view class="bg-img" v-for="(item,index) in eventStone.imgList" :key="index" @tap="viewImage" :data-url="eventStone.imgList[index]">
+								 <image :src="eventStone.imgList[index]" mode="aspectFill"></image>
+									<view class="cu-tag bg-red" @tap.stop="delImg" :data-index="index">
+										<text class='cuIcon-close'></text>
+									</view>
+								</view>
+								<view class="solids" @tap="chooseImage" v-if="eventStone.imgList.length<4">
+									<text class='cuIcon-cameraadd'></text>
+								</view>
+							</view>
+						</view>
+						<view class="cu-form-group" style="border-top: 0;" @click="fetchPosition">
+							<view class="title">
+								<text class="margin-right-xs" :class="eventStone.location.location?'cuIcon-locationfill':'cuIcon-location'"></text>
+								<text>{{eventStone.location.name || "所在位置"}}</text>
+							</view>
+							<view>
+								<text class="cuIcon-right"></text>
+							</view>
+						</view>
+						<view class="cu-form-group" style="border-top: 0;" @click="modalName='modalLink'">
+							<view class="title">
+								<text class="cuIcon-link margin-right-xs"></text>
+								<text>{{linkValue || '链接'}}</text>
+							</view>
+							<view>
+								<text class="cuIcon-right"></text>
+							</view>
+						</view>
+						<view class="cu-form-group">
+							<view>
+							</view>
+							<view>
+								<button @click="addStyle = false" class="margin-sm basis-sm shadow cu-btn bg-grey" style="padding: 0 50upx;">
+								取&nbsp;&nbsp;&nbsp;&nbsp;消
+								</button>
+								<button @click="createEvent" class="margin-sm basis-sm shadow cu-btn bg-green" style="padding: 0 50upx;">
+								保&nbsp;&nbsp;&nbsp;&nbsp;存
+								</button>
+							</view>
 						</view>
 					</view>
 				</view>
-				<view class="cu-form-group" style="border-top: 0;" @click="fetchPosition">
-					<view class="title">
-						<text class="margin-right-xs" :class="eventStone.location.location?'cuIcon-locationfill':'cuIcon-location'"></text>
-						<text>{{eventStone.location.name || "所在位置"}}</text>
-					</view>
-					<view>
-						<text class="cuIcon-right"></text>
-					</view>
-				</view>
-				<view class="cu-form-group" style="border-top: 0;" @click="modalName='modalLink'">
-					<view class="title">
-						<text class="cuIcon-link margin-right-xs"></text>
-						<text>{{linkValue || '链接'}}</text>
-					</view>
-					<view>
-						<text class="cuIcon-right"></text>
-					</view>
-				</view>
-				<view class="cu-form-group">
-					<view>
-					</view>
-					<view>
-						<button @click="createEvent" class="margin-sm basis-sm shadow cu-btn bg-green" style="padding: 0 50upx;">
-						保&nbsp;&nbsp;&nbsp;&nbsp;存
-						</button>
-					</view>
-				</view>
+				
 			</view>
 		</form>
 		<view class="cu-modal" :class="modalName=='modalLink'?'show':''">

@@ -219,6 +219,7 @@
 					}
 					
 				}else {
+					this.defaultEventStone()
 					this.addStyle = false
 					this.$emit('hide',null)
 				}
@@ -264,6 +265,7 @@
 					location: {},
 					imgList:[]
 				}
+				this.linkValue = null
 			},
 			chooseImage() {
 				uni.chooseImage({

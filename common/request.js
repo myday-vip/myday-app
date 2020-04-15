@@ -13,8 +13,8 @@ function setToken(token){
 	}
 }
 
-var base_url_api = "http://192.168.80.100:8080/"
-var base_url_oss = "http://192.168.80.100:8080/"
+var base_url_api = "http://localhost:8080/"
+var base_url_oss = "http://localhost:8080/"
 
 
 function uploadCommon(path,filePath, successFun, completeFun){
