@@ -10,8 +10,7 @@
 			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
 			 @longpress="showMenu(item)">
 				<view class="cu-avatar round lg " 
-				:class="item.classify == 'INPUT'?'cuIcon-read':'cuIcon-write'"
-				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray'}"></view>
+				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray',backgroundImage:item.classify == 'INPUT'?'url(../../static/md-input.png)':(item.classify == 'OUTPUT'?'url(../../static/md-output.png)':'url(../../static/md-physical-agility.png)')}"></view>
 				<view class="content">
 					<view :class="item.status == 'TODO'?'text-orange':'text-gray'">
 						<view class="text-cut">{{item.subject}}</view>
