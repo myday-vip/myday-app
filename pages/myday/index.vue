@@ -19,8 +19,11 @@
 				<view class="cu-progress round" style="height: 55rpx;">
 					<view class="bg-red" :style="[{ width:true?'31.8%':''}]">人生已走完31.8%</view>
 				</view>
-				<view class="text-df" style="padding: 30upx 0;">
-					光阴似箭，日月如梭。人生短短数十载，忽然而已
+				<view class="text-df" style="padding-top: 30upx;">
+					光阴似箭，日月如梭。
+				</view>
+				<view class="text-df" style="padding: 10upx 0;">
+					人生短短数十载，忽然而已。生命剩余 19231 天
 				</view>
 			</view>
 
