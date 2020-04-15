@@ -21,9 +21,7 @@
         }
         ,{
             "path" : "pages/myday/index",
-            "style" : {
-            	"navigationBarTitleText": "我的天啊"
-            }
+            "style" : {}
         }
         ,{
             "path" : "pages/myday/detail",

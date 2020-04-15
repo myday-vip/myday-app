@@ -44,7 +44,7 @@
 			</view>
 		</block>
 		
-		<view class="cu-list menu sm-border margin-top" >
+<!-- 		<view class="cu-list menu sm-border margin-top" >
 			<view class="cu-item arrow">
 				<view class="content">
 					<text class="cuIcon-global text-grey"></text>
@@ -57,7 +57,7 @@
 					<text class="text-grey">朋友</text>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<view class="cu-list menu sm-border margin-top" >
 			<view class="cu-item arrow" @tap="toMyday">
 				<view class="content">
@@ -71,15 +71,15 @@
 					<text class="text-grey">时间</text>
 				</view>
 			</view>
-			<view class="cu-item arrow" >
+<!-- 			<view class="cu-item arrow" >
 				<view class="content">
 					<text class="cuIcon-ellipse text-grey"></text>
 					<text class="text-grey">工具</text>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<view class="cu-list menu sm-border margin-top" >
-			<view class="cu-item arrow" >
+			<view class="cu-item arrow" @tap="showMenu">
 				<view class="content">
 					<text class="cuIcon-settingsfill text-grey"></text>
 					<text class="text-grey">设置</text>
