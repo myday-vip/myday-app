@@ -85,7 +85,19 @@
 					<text class="text-grey">设置</text>
 				</view>
 			</view>
+			<view class="cu-item arrow">
+				<view class="content">
+					<text class="cuIcon-calendar text-grey"></text>
+					<text class="text-grey">生日</text>
+					<picker style="display: inline-block;margin-left: 20upx;" mode="date" :value="userInfo2.birthday" start="1950-01-01" end="2020-08-08" @change="changeBirthday">
+						<view class="picker">
+							{{userInfo2.birthday?userInfo2.birthday:'请选择'}}
+						</view>
+					</picker>
+				</view>
+			</view>
 		</view>
+
 		
 		<view class="cu-modal bottom-modal" :class="modalName=='setMenu'?'show':''" @tap="modalName=null">
 			<view class="cu-dialog">
@@ -109,7 +121,7 @@
 </template>
 
 <script>
-	import {login,updatePhoto} from '../../common/api.js'
+	import {login,updatePhoto,updateBirthday} from '../../common/api.js'
 	import {setToken,getToken,baseUrlOss} from '../../common/request.js'
 	import {dateformat} from '../../common/util.js'
 	
@@ -144,6 +156,15 @@
 			toMyday(){
 				uni.navigateTo({
 					url:'/pages/myday/index'
+				})
+			},
+			changeBirthday(e){
+				this.userInfo2.birthday = e.detail.value
+				updateBirthday(e.detail.value).then(() =>{
+					uni.setStorage({
+					    key: 'MYDAY-USER',
+					    data: JSON.stringify(this.userInfo2)
+					});
 				})
 			},
 			changePhoto(){
@@ -201,6 +222,9 @@
 							this.userInfo2 = res.info
 							if (res.info.photo){
 								this.photo = baseUrlOss(this.userInfo2.photo)
+							}
+							if (res.info.birthday) {
+								res.info.birthday = dateformat.all(new Date(res.info.birthday),"yyyy-MM-dd")
 							}
 							uni.setStorage({
 							    key: 'MYDAY-USER',

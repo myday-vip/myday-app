@@ -9,6 +9,11 @@ module.exports = {
 	updatePhoto: function(img,success){
 		return uploadCommon("api/user/photo",img,success)
 	},
+	updateBirthday: function(date) {
+		let data = {}
+		data.birthday = date
+		return post("api/user/birthday", data)
+	},
 	// event
 	getEvent: function(){
 		return get("api/event/today")
