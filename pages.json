@@ -27,6 +27,10 @@
             "path" : "pages/myday/detail",
             "style" : {}
         }
+        ,{
+            "path" : "pages/my/setting",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "我的天啊",

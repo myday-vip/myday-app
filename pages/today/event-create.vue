@@ -3,23 +3,26 @@
 		<form  class="animation-slide-bottom">
 			<view class="cu-form-group">
 				<button class="margin-sm basis-sm shadow cu-btn bg-gradual-orange" 
-				:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/index.jpg)':''}"
+				style="background-position: center 0;background-size: cover;"
+				:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/md-input.png)':''}"
 				 @click="selectClassify($store.state.constants.event.classify.INPUT)">
 				 输入
 				 </button>
 				<button class="margin-sm basis-sm shadow cu-btn bg-gradual-green" 
-				:style="{backgroundImage:eventStone.classify == 'OUTPUT'?'url(/static/index.jpg)':''}"
+				style="background-position: center 0;background-size: cover;"
+				:style="{backgroundImage:eventStone.classify == 'OUTPUT'?'url(/static/md-output.png)':''}"
 				@click="selectClassify($store.state.constants.event.classify.OUTPUT)" >输出</button>
 				<button class="margin-sm basis-sm shadow cu-btn bg-orange" 
-				:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/index.jpg)':''}"
+				style="background-position: center 0;background-size: cover;"
+				:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/md-physical-agility.png)':''}"
 				@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
 			</view>
 			<view class="cu-modal bottom-modal " :class="showall?'show':''">
 				<view class="cu-dialog">
 					<view class="cu-bar bg-white">
-						<view v-if="eventStone.classify == 'INPUT'" class="content">输入</view>
-						<view v-if="eventStone.classify == 'OUTPUT'" class="content">输出</view>
-						<view v-if="eventStone.classify == 'PHYSICAL_AGILITY'" class="content">体能</view>
+						<view v-if="eventStone.classify == 'INPUT'" class="content bg-img text-bold text-orange" style="width:100%;background-image: url(/static/md-input.png);">输&nbsp;&nbsp;&nbsp;&nbsp;入</view>
+						<view v-if="eventStone.classify == 'OUTPUT'" class="content bg-img text-bold text-green" style="background-image: url(/static/md-output.png);">输&nbsp;&nbsp;&nbsp;&nbsp;出</view>
+						<view v-if="eventStone.classify == 'PHYSICAL_AGILITY'" class="content bg-img  text-bold text-orange" style="background-image: url(../../static/md-physical-agility.png);">体&nbsp;&nbsp;&nbsp;&nbsp;能</view>
 					</view>
 					<view class="padding-sm">
 						<view class="cu-form-group">

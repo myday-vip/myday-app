@@ -1,9 +1,18 @@
 <template>
 	<view>
-		<scroll-view scroll-y class="page">
-			<image src="/static/myday-banner2.png"
+		<scroll-view scroll-y class="page bg-white">
+			<image src="/static/bannerBG.png"
 			 mode="widthFix" class="response"></image>
-				 <view class="bg-white padding flex p-xs mb-sm">
+			 <view class="padding-xl text-white" style="position: absolute;top: 50rpx;">
+			 	<view class="padding-xs text-xxl text-bold">
+			 		<!-- <view class="cu-avatar xl round margin-right" style="background-image:url(../../static/logo.png);"></view> -->
+			 		我的天啊 myday.vip
+			 	</view>
+			 	<view class="padding-xs text-lg">
+			 		Focus on what matters. 专注于重要的事情
+			 	</view>
+			 </view>
+				 <view class="bg-white flex p-xs mb-sm" style="padding: 0 30rpx 30rpx 30rpx;">
 					<view class="flex-sub margin-xs">
 						<view class="lex flex-wrap" style="height: 100%;">
 							<view class="padding-sm">

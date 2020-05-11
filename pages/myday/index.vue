@@ -14,7 +14,7 @@
 		</swiper> -->
 		
 		<view class="bg-img flex align-center" :class="lifeProgress.v1>0?'':'bg-mask'" style="height: 454upx;"
-		:style="{backgroundImage: 'url(https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg)'}">
+		:style="{backgroundImage: 'url(../../static/bannerBG.png)'}">
 			<view class="padding-xl text-white" style="width: 100%;">
 				<block v-if="lifeProgress.v1>0">
 					<view class="cu-progress round" style="height: 55rpx;">
@@ -34,21 +34,17 @@
 
 		</view>
 		
-		<view class="bg-white padding" style="display: flex;">
+		<!--
+		:style="[{ backgroundImage:'url('+ (item.classify == 'INPUT'?'/static/md-input.png':(item.classify == 'OUTPUT'?'/static/md-output.png':'/static/md-physical-agility.png')) +')' }]"
+		
+		-->
+		
+		<view class=" padding" style="display: flex;">
 			<view class="grid col-2 grid-square">
-				<view class="bg-img"  style="background-image: url(../../static/svg/undraw_check_boxes_m3d0.svg);">
-					<view class=" text-green text-center stroke" style="padding:20upx 0">
-						<view class="padding-xs text-xl text-bold">
-							tsetset
-						</view>
-						<view class="padding-xs text-lg">
-							陪伴<text class="text-sl text-bold padding-xs">2</text>天
-						</view>
-					</view>
-				</view>
-				<view class="bg-img" v-for="(item,index) in edata" :key="index" @tap="toDetail(item.id)"
-				:style="[{ backgroundImage:'url('+ (item.classify == 'INPUT'?'/static/md-input.png':(item.classify == 'OUTPUT'?'/static/md-output.png':'/static/md-physical-agility.png')) +')' }]">
-					<view class=" text-green text-center stroke" style="padding:20upx 0">
+				<view class="bg-img shadow-blur shadow-lg" v-for="(item,index) in edata" :key="index" @tap="toDetail(item.id)"
+				:style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
+				:class="item.classify == 'INPUT'?'bg-gradual-orange':(item.classify == 'OUTPUT'?'bg-gradual-green':'bg-orange')">
+					<view class=" text-white text-center " style="padding:20upx 0">
 						<view class="padding-xs text-xl text-bold">
 							{{item.subject}}
 						</view>
