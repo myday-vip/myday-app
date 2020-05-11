@@ -5,10 +5,10 @@
 				<text class="cuIcon-title text-orange "></text> 今天
 			</view>
 		</view>
-		<view class="cu-list menu-avatar">
+		<view class="cu-list menu-avatar bg-img" style="background-image: url(../../static/md-no-content.png);min-height: 360px;">
 			<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in events" :key="index"
 			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
-			 @longpress="showMenu(item)">
+			 @longpress="showMenu(item)" style="background-color: rgba(255, 255, 255, 0.5);">
 				<view class="cu-avatar round lg " 
 				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray',backgroundImage:item.classify == 'INPUT'?'url(../../static/md-input.png)':(item.classify == 'OUTPUT'?'url(../../static/md-output.png)':'url(../../static/md-physical-agility.png)')}"></view>
 				<view class="content">
