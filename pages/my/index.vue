@@ -131,7 +131,7 @@
 				isLogin: false,
 				userInfo: {},//wx
 				userInfo2: {},//myday
-				photo:'../../static/index.jpg',
+				photo:'/static/myday-banner2.png',
 				modalName: null,
 			}
 		},
@@ -146,7 +146,10 @@
 				success: function (res) {
 					if(res && res.data){
 						_this.userInfo2 = JSON.parse(res.data);
-						_this.photo = baseUrlOss(_this.userInfo2.photo)
+						if (_this.userInfo2.photo){
+							_this.photo = baseUrlOss(_this.userInfo2.photo)
+						}
+						
 					}
 					
 				}

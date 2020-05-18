@@ -22,7 +22,9 @@
 					</view>
 				</block>
 				<block v-if="lifeProgress.v1<0">
-					<button class="cu-btn bg-green margin-tb-sm" style="font-size: 32rpx;height: 60rpx;width: 100%;">设置生日，进入倒计时时代</button>
+					<navigator class="action" open-type="navigateBack" delta="1">
+						<button class="cu-btn bg-green margin-tb-sm" style="font-size: 32rpx;height: 60rpx;width: 100%;">设置生日，进入倒计时时代</button>
+					</navigator>
 				</block>
 				<view class="text-df" style="padding-top: 30upx;">
 					光阴似箭，日月如梭。
@@ -43,21 +45,30 @@
 			<view class="grid col-2 grid-square">
 				<view class="bg-img shadow-blur shadow-lg" v-for="(item,index) in edata" :key="index" @tap="toDetail(item.id)"
 				:style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
-				:class="item.classify == 'INPUT'?'bg-gradual-orange':(item.classify == 'OUTPUT'?'bg-gradual-green':'bg-orange')">
-					<view class=" text-white text-center " style="padding:20upx 0">
-						<view class="padding-xs text-xl text-bold">
-							{{item.subject}}
+				:class="item.classify == 'INPUT'?'bg-gradual-orange':(item.classify == 'OUTPUT'?'bg-gradual-green':(item.classify == 'NONE'?'bg-none':'bg-orange'))">
+					<block v-if="item.classify == 'NONE'">
+						<view class="bg-img padding-top-xl flex align-end" style="background-image:url(../../static/md-input.png);height: 180px;">
+							<view class="bg-shadeBottom padding padding-top-xl flex-sub">
+								输入、输出、体能
+							</view>
 						</view>
-						<view class="padding-xs text-lg">
-							陪伴<text class="text-sl text-bold padding-xs">{{item.intervalDay}}</text>天
+					</block>
+					<block v-else>
+						<view class=" text-white text-center " style="padding:20upx 0">
+								<view class="padding-xs text-xl text-bold">
+									{{item.subject}}
+								</view>
+								<view class="padding-xs text-lg">
+									陪伴<text class="text-sl text-bold padding-xs">{{item.intervalDay}}</text>天
+								</view>
+								<view class=" text-sm" style="padding:10upx 0;">
+									{{item.createTimeChineseDay}}
+								</view>
+								<view class="text-sm" style="padding:10upx 0;">
+									{{item.updateTimeChineseDay}}
+								</view>						
 						</view>
-						<view class=" text-sm" style="padding:10upx 0;">
-							{{item.createTimeChineseDay}}
-						</view>
-						<view class="text-sm" style="padding:10upx 0;">
-							{{item.updateTimeChineseDay}}
-						</view>
-					</view>
+					</block>
 				</view>
 			</view>
 		</view>
@@ -104,11 +115,22 @@
 			},
 			fetchData: function(){
 				getAllEventDetail().then((res) => {
+					if (res == null){
+						res = []
+						
+					}
+					if (res.length<4){
+						for (var i=res.length;i<4;i++) {
+							res.push({id:0,classify:"NONE"})
+						}
+					}
 					this.edata = res
 				})
 			},
 			toDetail: function(id){
-				console.log(id)
+				if (id <=0){
+					return
+				}
 				uni.navigateTo({
 				    url: '/pages/myday/detail?id=' + id,
 					animationType: 'pop-in',
@@ -139,5 +161,9 @@
 	.stroke {
 		text-shadow: #000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;
 
+	}
+	.bg-none {
+		color: #333333;
+		background-color: #ccc7d0;
 	}
 </style>
