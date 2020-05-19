@@ -186,27 +186,27 @@
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
 	}
 	.day-deep-1 {
-		background-color: #66d09f;
+		background-color: #c6e48b;
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
 	}
 	.day-deep-2 {
-		background-color: #56af85;
+		background-color: #7bc96f;
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
 	}
 	.day-deep-3 {
-		background-color: #438968;
+		background-color: #6cb564;
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
 	}
 	.day-deep-4 {
-		background-color: #758cde;
+		background-color: #25a741;
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
 	}
 	.day-deep-5 {
-		background-color: #6074b7;
+		background-color: #239a3b;
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
 	}
 	.day-deep-8 {
-		background-color: #d05518;
+		background-color: #196127;
 		position: absolute;top: 0;bottom: 0;right: 0;left: 0;
 	}
 	

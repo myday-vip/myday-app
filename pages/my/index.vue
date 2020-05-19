@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="bg-img bg-mask flex align-center" style="height: 454upx;"
+		<view class="bg-img bg-mask flex align-center" style="height: 454upx;background-image: url(https://oss.lc.myday.vip/670812dcb573a95a8c84/md-no-content.png);"
 		:style="{backgroundImage: 'url('+photo+')'}"
 		@tap="showMenu">
 <!-- 			<block v-if="isLogin === true">
@@ -131,7 +131,7 @@
 				isLogin: false,
 				userInfo: {},//wx
 				userInfo2: {},//myday
-				photo:'/static/myday-banner2.png',
+				photo:'https://oss.lc.myday.vip/670812dcb573a95a8c84/md-no-content.png',
 				modalName: null,
 			}
 		},

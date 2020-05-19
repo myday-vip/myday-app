@@ -4,25 +4,25 @@
 			<view class="cu-form-group">
 				<button class="margin-sm basis-sm shadow cu-btn bg-gradual-orange" 
 				style="background-position: center 0;background-size: cover;"
-				:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(/static/md-input.png)':''}"
+				:style="{backgroundImage:eventStone.classify == 'INPUT'?'url(https://oss.lc.myday.vip/afeade1256dc5942dc2c/md-input.png)':''}"
 				 @click="selectClassify($store.state.constants.event.classify.INPUT)">
 				 输入
 				 </button>
 				<button class="margin-sm basis-sm shadow cu-btn bg-gradual-green" 
 				style="background-position: center 0;background-size: cover;"
-				:style="{backgroundImage:eventStone.classify == 'OUTPUT'?'url(/static/md-output.png)':''}"
+				:style="{backgroundImage:eventStone.classify == 'OUTPUT'?'url(https://oss.lc.myday.vip/8d28bc2cf76b8a8d04f5/md-output.png)':''}"
 				@click="selectClassify($store.state.constants.event.classify.OUTPUT)" >输出</button>
 				<button class="margin-sm basis-sm shadow cu-btn bg-orange" 
 				style="background-position: center 0;background-size: cover;"
-				:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(/static/md-physical-agility.png)':''}"
+				:style="{backgroundImage:eventStone.classify == 'PHYSICAL_AGILITY'?'url(https://oss.lc.myday.vip/79ebece8f7a9364a3c10/md-physical-agility.png)':''}"
 				@click="selectClassify($store.state.constants.event.classify.PA)" >体能</button>
 			</view>
 			<view class="cu-modal bottom-modal " :class="showall?'show':''">
 				<view class="cu-dialog">
 					<view class="cu-bar bg-white">
-						<view v-if="eventStone.classify == 'INPUT'" class="content bg-img text-bold text-orange" style="width:100%;background-image: url(/static/md-input.png);">输&nbsp;&nbsp;&nbsp;&nbsp;入</view>
-						<view v-if="eventStone.classify == 'OUTPUT'" class="content bg-img text-bold text-green" style="background-image: url(/static/md-output.png);">输&nbsp;&nbsp;&nbsp;&nbsp;出</view>
-						<view v-if="eventStone.classify == 'PHYSICAL_AGILITY'" class="content bg-img  text-bold text-orange" style="background-image: url(../../static/md-physical-agility.png);">体&nbsp;&nbsp;&nbsp;&nbsp;能</view>
+						<view v-if="eventStone.classify == 'INPUT'" class="content bg-img text-bold text-orange" style="width:100%;background-image: url(https://oss.lc.myday.vip/afeade1256dc5942dc2c/md-input.png);">输&nbsp;&nbsp;&nbsp;&nbsp;入</view>
+						<view v-if="eventStone.classify == 'OUTPUT'" class="content bg-img text-bold text-green" style="background-image: url(https://oss.lc.myday.vip/8d28bc2cf76b8a8d04f5/md-output.png);">输&nbsp;&nbsp;&nbsp;&nbsp;出</view>
+						<view v-if="eventStone.classify == 'PHYSICAL_AGILITY'" class="content bg-img  text-bold text-orange" style="background-image: url(https://oss.lc.myday.vip/79ebece8f7a9364a3c10/md-physical-agility.png);">体&nbsp;&nbsp;&nbsp;&nbsp;能</view>
 					</view>
 					<view class="padding-sm">
 						<view class="cu-form-group">

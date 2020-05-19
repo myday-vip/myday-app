@@ -5,12 +5,12 @@
 				<text class="cuIcon-title text-orange "></text> 今天
 			</view>
 		</view>
-		<view class="cu-list menu-avatar bg-img" style="background-image: url(../../static/md-no-content.png);min-height: 360px;">
+		<view class="cu-list menu-avatar bg-img" style="background-image: url(https://oss.lc.myday.vip/670812dcb573a95a8c84/md-no-content.png);min-height: 360px;">
 			<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in events" :key="index"
 			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
 			 @longpress="showMenu(item)" style="background-color: rgba(255, 255, 255, 0.5);">
 				<view class="cu-avatar round lg " 
-				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray',backgroundImage:item.classify == 'INPUT'?'url(../../static/md-input.png)':(item.classify == 'OUTPUT'?'url(../../static/md-output.png)':'url(../../static/md-physical-agility.png)')}"></view>
+				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray',backgroundImage:item.classify == 'INPUT'?'url(https://oss.lc.myday.vip/afeade1256dc5942dc2c/md-input.png)':(item.classify == 'OUTPUT'?'url(https://oss.lc.myday.vip/8d28bc2cf76b8a8d04f5/md-output.png)':'url(https://oss.lc.myday.vip/79ebece8f7a9364a3c10/md-physical-agility.png)')}"></view>
 				<view class="content">
 					<view :class="item.status == 'TODO'?'text-orange':'text-gray'">
 						<view class="text-cut">{{item.subject}}</view>
