@@ -77,12 +77,18 @@ function request(url, postData, method, type, showLoading) {
 					if (res.statusCode === 200) {
 						resolve(res.data)
 					}else if (res.statusCode === 401) {
-						uni.showToast({
-							image:'/static/logo.png',
-							title:'请登录'
-						})
-						setToken(null)
-						uni.$emit('updatePageCur',{cur:'about'})
+						if (token == null && method !== 'POST') {
+							//微信小程序审核，请在用户了解体验小程序功能后，再要求用户进行帐号登录。https://developers.weixin.qq.com/community/operate/doc/000640bb8441b82900e89f48351401
+							reject(res)
+						}else {
+							uni.showToast({
+								image:'/static/logo.png',
+								title:'请登录'
+							})
+							setToken(null)
+							uni.$emit('updatePageCur',{cur:'about'})							
+						}
+
 					}else if (res.statusCode === 400) {	
 						uni.showToast({
 							image:'/static/logo.png',
