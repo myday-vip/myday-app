@@ -5,6 +5,7 @@ https://myday.vip
 
 我们的每一天都应该过的有意义
 
+![](https://oss.lc.myday.vip/cab02ca900862ae5b8cf/WX20200518-181853%402x.png)
 
 当前处于草稿阶段
 
@@ -84,3 +85,7 @@ Dev Log
 * 5.3
 
 	人生进度条对接API
+	
+* 5.20
+
+	使用OSS存储图片
