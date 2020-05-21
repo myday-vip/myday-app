@@ -13,7 +13,7 @@
 			</swiper-item>
 		</swiper> -->
 		
-		<view class="bg-img flex align-center"  style="height: 454upx;background-image: url(/static/bannerBG.png);">
+		<view class="bg-img flex align-center"  style="height: 454upx;background-image: url(https://oss.lc.myday.vip/b0498ea2c0f2f0128a6f/bannerBG.png);">
 			<view class="padding-xl text-white" style="width: 100%;">
 				<block v-if="lifeProgress.v1>0">
 					<view class="cu-progress round" style="height: 55rpx;">
@@ -46,7 +46,7 @@
 				:style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 				:class="item.classify == 'INPUT'?'bg-gradual-orange':(item.classify == 'OUTPUT'?'bg-gradual-green':(item.classify == 'NONE'?'bg-none':'bg-orange'))">
 					<block v-if="item.classify == 'NONE'">
-						<view class="bg-img padding-top-xl flex align-end" style="background-image:url(/static/md-input.png);height: 180px;">
+						<view class="bg-img padding-top-xl flex align-end" style="background-image:url(https://oss.lc.myday.vip/afeade1256dc5942dc2c/md-input.png);height: 180px;">
 							<view class="bg-shadeBottom padding padding-top-xl flex-sub">
 								输入、输出、体能
 							</view>

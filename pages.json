@@ -3,7 +3,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "我的天啊"
+				"navigationBarTitleText": "我的天啊",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
