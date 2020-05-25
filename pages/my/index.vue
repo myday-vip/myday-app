@@ -19,8 +19,15 @@
 			<block>
 				<view class="padding-xl text-white">
 					<view class="padding-xs text-xxl text-bold">
+						<!-- #ifdef APP-PLUS || MP-ALIPAY || MP-TOUTIAO -->
+						<view class="cu-avatar xl round margin-right" :style="{backgroundImage: 'url('+userInfo2.photo+')'}">
+						</view>
+						{{userInfo2.nickname}}
+						<!-- #endif -->
+						<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ -->
 						<open-data class="cu-avatar xl round margin-right" type="userAvatarUrl"></open-data>
 						<open-data type="userNickName"></open-data>
+						<!-- #endif -->
 					</view>
 					<view class="padding-xs text-lg">
 						
@@ -34,7 +41,7 @@
 				<view class="cu-item" >
 					<view class="content flex flex-direction">
 						<!-- #ifdef APP-PLUS || MP-ALIPAY || MP-TOUTIAO -->
-						<button @click="tologin" class="cu-btn bg-red margin-tb-sm lg">登录</button>
+						<button @click="toLoginApp" class="cu-btn bg-red margin-tb-sm lg">微信登录</button>
 						<!-- #endif -->
 						<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ -->
 						<button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotWXUserInfo" class="cu-btn bg-red margin-tb-sm lg">登录</button>
@@ -121,7 +128,7 @@
 </template>
 
 <script>
-	import {login,updatePhoto,updateBirthday} from '../../common/api.js'
+	import {login,loginwxapp,updatePhoto,updateBirthday} from '../../common/api.js'
 	import {setToken,getToken,baseUrlOss} from '../../common/request.js'
 	import {dateformat} from '../../common/util.js'
 	
@@ -135,9 +142,12 @@
 				modalName: null,
 			}
 		},
-		
 		onReady(){
+
+		},
+		created() {
 			var _this = this
+
 			if (getToken()){
 				this.isLogin = true
 			}
@@ -211,34 +221,60 @@
 					})
 				}
 			},
+			loginSuccess(res){
+				console.log(res)
+				setToken(res.auth.access_token)
+				this.isLogin = true
+				this.userInfo2 = res.info
+				if (res.info.photo){
+					this.photo = baseUrlOss(this.userInfo2.photo)
+				}
+				if (res.info.birthday) {
+					res.info.birthday = dateformat.all(new Date(res.info.birthday),"yyyy-MM-dd")
+				}
+				uni.setStorage({
+				    key: 'MYDAY-USER',
+				    data: JSON.stringify(res.info)
+				});
+			},
 			tologin(provider) {
 			    uni.login({
-			        provider: provider,
+			        provider: "weixin",
 			        // #ifdef MP-ALIPAY
 			        scopes: 'auth_user', //支付宝小程序需设置授权类型
 			        // #endif
 			        success: (res) => {
 			            console.log('login success:', res);
 						login(res.code,this.userInfo).then((res) => {
-							setToken(res.auth.access_token)
-							this.isLogin = true
-							this.userInfo2 = res.info
-							if (res.info.photo){
-								this.photo = baseUrlOss(this.userInfo2.photo)
-							}
-							if (res.info.birthday) {
-								res.info.birthday = dateformat.all(new Date(res.info.birthday),"yyyy-MM-dd")
-							}
-							uni.setStorage({
-							    key: 'MYDAY-USER',
-							    data: JSON.stringify(res.info)
-							});
+							this.loginSuccess(res)
 						})
 			        },
 			        fail: (err) => {
-			            console.log('login fail:', err);
+			            console.log('login fail:');
+						console.log(err)
 			        }
 			    });
+			},
+			toLoginApp(){
+				var _this = this
+				uni.getProvider({
+				    service: 'oauth',
+				    success: function (res) {
+				        console.log(res.provider)
+				        if (~res.provider.indexOf('weixin')) {
+				            uni.login({
+				                provider: 'weixin',
+				                success: function (res) {
+									loginwxapp(res.authResult.access_token, res.authResult.openid).then((res) => {
+										_this.loginSuccess(res)
+									}).catch((err) => {
+										console.log(err)
+									})
+				                }
+				            });
+				        }
+				    }
+				});
 			}
 		}
 	}

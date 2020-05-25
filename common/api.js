@@ -6,6 +6,12 @@ module.exports = {
 		user.code = code
 		return post("login_by_weixin", user)
 	},
+	loginwxapp: function(token,openid){
+		var user = {}
+		user.accessToken = token
+		user.openid = openid
+		return post("login_by_weixin_app", user)
+	},
 	updatePhoto: function(img,success){
 		return uploadCommon("api/user/photo",img,success)
 	},
