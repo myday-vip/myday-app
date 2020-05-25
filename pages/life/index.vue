@@ -30,12 +30,12 @@
 						<view style="background-color: #FFFFFF;" v-for="(item,index) in drawFirstDay" :key="index" ></view>
 				 		<view v-for="(item,index) in days.days" :key="index" >
 						<view :class="{'day-deep-0':!data[item.key],
-						'day-deep-1':data[item.key].length == 1,
-						'day-deep-2':data[item.key].length == 2,
-						'day-deep-3':data[item.key].length == 3,
-						'day-deep-4':data[item.key].length == 4,
-						'day-deep-5':data[item.key].length == 5,
-						'day-deep-8':data[item.key].length >5,
+						'day-deep-1':data[item.key] && data[item.key].length == 1,
+						'day-deep-2':data[item.key] && data[item.key].length == 2,
+						'day-deep-3':data[item.key] && data[item.key].length == 3,
+						'day-deep-4':data[item.key] && data[item.key].length == 4,
+						'day-deep-5':data[item.key] && data[item.key].length == 5,
+						'day-deep-8':data[item.key] && data[item.key].length >5,
 						'day-deep-future':item.key > nowDate}"
 						:id="item.key == nowDate?'now-date':null" @click="dayClick(item)">
 								<block v-if="item.key == nowDate">
