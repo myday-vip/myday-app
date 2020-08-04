@@ -53,5 +53,8 @@ module.exports = {
 	},
 	getEventDetail: function(id){
 		return get("api/event/"+id+"/detail")
+	},
+	getReportWeeks: function(){
+		return get("api/reports/weeks")
 	}
 }

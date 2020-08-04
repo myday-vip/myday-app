@@ -135,6 +135,7 @@
 				return dateformat.all(date,"hh:mm")
 			},
 			fomate3: function(time) {
+				//TODO 不同时间不同颜色
 				var date = new Date(time)
 				var hour = date.getHours()
 				var timeLabel

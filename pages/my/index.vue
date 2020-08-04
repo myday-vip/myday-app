@@ -72,6 +72,12 @@
 					<text class="text-grey">我的天啊</text>
 				</view>
 			</view>
+			<view class="cu-item arrow" @tap="toMyWeek">
+				<view class="content">
+					<text class="cuIcon-footprint text-grey"></text>
+					<text class="text-grey">我的周啊</text>
+				</view>
+			</view>
 			<view class="cu-item arrow" @tap="toTimeline">
 				<view class="content">
 					<text class="cuIcon-timefill text-grey"></text>
@@ -172,6 +178,11 @@
 			toMyday(){
 				uni.navigateTo({
 					url:'/pages/myday/index'
+				})
+			},
+			toMyWeek(){
+				uni.navigateTo({
+					url:'/pages/reports/weeks'
 				})
 			},
 			changeBirthday(e){
