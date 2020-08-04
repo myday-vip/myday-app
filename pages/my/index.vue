@@ -143,29 +143,32 @@
 			}
 		},
 		onReady(){
-
+			this.init()
 		},
 		created() {
-			var _this = this
-
-			if (getToken()){
-				this.isLogin = true
-			}
-			uni.getStorage({
-				key: 'MYDAY-USER',
-				success: function (res) {
-					if(res && res.data){
-						_this.userInfo2 = JSON.parse(res.data);
-						if (_this.userInfo2.photo){
-							_this.photo = baseUrlOss(_this.userInfo2.photo)
+			this.init()
+		},
+		methods:{
+			init(){
+				var _this = this
+				
+				if (getToken()){
+					this.isLogin = true
+				}
+				uni.getStorage({
+					key: 'MYDAY-USER',
+					success: function (res) {
+						if(res && res.data){
+							_this.userInfo2 = JSON.parse(res.data);
+							if (_this.userInfo2.photo){
+								_this.photo = baseUrlOss(_this.userInfo2.photo)
+							}
+							
 						}
 						
 					}
-					
-				}
-			});
-		},
-		methods:{
+				});	
+			},
 			toMyday(){
 				uni.navigateTo({
 					url:'/pages/myday/index'
@@ -265,6 +268,7 @@
 				            uni.login({
 				                provider: 'weixin',
 				                success: function (res) {
+									//https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Development_Guide.html
 									loginwxapp(res.authResult.access_token, res.authResult.openid).then((res) => {
 										_this.loginSuccess(res)
 									}).catch((err) => {
