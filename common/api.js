@@ -56,5 +56,8 @@ module.exports = {
 	},
 	getReportWeeks: function(flag){
 		return get("api/reports/weeks?flag="+flag)
+	},
+	getReportMonths: function(flag){
+		return get("api/reports/months?flag="+flag)
 	}
 }
