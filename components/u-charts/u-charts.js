@@ -31,7 +31,7 @@ var config = {
   fontSize: 13,
   //dataPointShape: ['diamond', 'circle', 'triangle', 'rect'],
   dataPointShape: ['circle', 'circle', 'circle', 'circle'],
-  colors: ['#1890ff', '#2fc25b', '#facc14', '#f04864', '#8543e0', '#90ed7d'],
+  colors: ['#1890ff', '#2fc25b', '#facc14', '#f04864', '#8543e0', '#90ed7d', '#e500f3'],
   pieChartLinePadding: 15,
   pieChartTextPadding: 5,
   xAxisTextPadding: 3,
@@ -1083,9 +1083,11 @@ function getXAxisTextList(series, opts, config) {
   //var dataRange = getDataRange(minData, maxData);
   var minRange = minData;
   var maxRange = maxData;
+  
 
   var range = [];
   var eachRange = (maxRange - minRange) / opts.xAxis.splitNumber;
+ 
 
   for (var i = 0; i <= opts.xAxis.splitNumber; i++) {
     range.push(minRange + eachRange * i);
@@ -1589,6 +1591,9 @@ function getYAxisTextList(series, opts, config, stack) {
   var dataRange = getDataRange(minData, maxData);
   var minRange = dataRange.minRange;
   var maxRange = dataRange.maxRange;
+  
+  //ZZZ
+  opts.yAxis.splitNumber = maxData;
 
   var range = [];
   var eachRange = (maxRange - minRange) / opts.yAxis.splitNumber;
