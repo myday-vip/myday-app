@@ -12,8 +12,8 @@
 					<view class="flex solid-bottom justify-between">
 						<view class="nav-title">{{subitem.subject}}</view>
 						<view class="cu-capsule radius">
-							<view class="cu-tag bg-cyan">{{subitem.updateTime | fomate3}}</view>
-							<view class="cu-tag line-cyan">{{subitem.updateTime | fomate2}}</view>
+							<view class="cu-tag" :class="subitem.timeColor1">{{subitem.timeLabel1}}</view>
+							<view class="cu-tag" :class="subitem.timeColor2">{{subitem.timeLabel2}}</view>
 						</view>
 					</view>
 					<view class="desc">
@@ -129,33 +129,8 @@
 			fomate1: function(time) {
 				var date = new Date(time)
 				return dateformat.all(date,"MM-dd")
-			},
-			fomate2: function(time) {
-				var date = new Date(time)
-				return dateformat.all(date,"hh:mm")
-			},
-			fomate3: function(time) {
-				//TODO 不同时间不同颜色
-				var date = new Date(time)
-				var hour = date.getHours()
-				var timeLabel
-				if (hour>=1 && hour<5) {
-					timeLabel = "凌晨"
-				}else if (hour>=5 && hour<8){
-					timeLabel = "清晨"
-				}else if (hour>=8 && hour<11){
-					timeLabel = "上午"
-				}else if (hour>=11 && hour<13){
-					timeLabel = "中午"
-				}else if (hour>=13 && hour<18){
-					timeLabel = "下午"
-				}else if (hour>=18 && hour<21){
-					timeLabel = "傍晚"
-				}else{
-					timeLabel = "深夜"
-				}
-				return timeLabel
 			}
+
 		},
 		methods:{
 			baseUrlOss: function(d){
@@ -181,6 +156,44 @@
 					e[0].ftime = fdateArr[0]
 					e[0].time1 = fdateArr[0].substr(5)
 					//e[0].time2 = fdateArr[1]
+					e.forEach(sube => {
+						var date = new Date(sube.updateTime)
+						var hour = date.getHours()
+						var timeLabel,timeColor1,timeColor2
+						if (hour>=1 && hour<5) {
+							timeLabel = "凌晨"
+							timeColor1 = "bg-cyan"
+							timeColor2 = "line-cyan"
+						}else if (hour>=5 && hour<8){
+							timeLabel = "清晨"
+							timeColor1 = "bg-blue"
+							timeColor2 = "line-blue"
+						}else if (hour>=8 && hour<11){
+							timeLabel = "上午"
+							timeColor1 = "bg-green"
+							timeColor2 = "line-green"
+						}else if (hour>=11 && hour<13){
+							timeLabel = "中午"
+							timeColor1 = "bg-red"
+							timeColor2 = "line-red"
+						}else if (hour>=13 && hour<18){
+							timeLabel = "下午"
+							timeColor1 = "bg-orange"
+							timeColor2 = "line-orange"
+						}else if (hour>=18 && hour<21){
+							timeLabel = "傍晚"
+							timeColor1 = "bg-pink"
+							timeColor2 = "line-pink"
+						}else{
+							timeLabel = "深夜"
+							timeColor1 = "bg-purple"
+							timeColor2 = "line-purple"
+						}
+						sube.timeLabel1 = timeLabel
+						sube.timeColor1 = timeColor1
+						sube.timeColor2 = timeColor2
+						sube.timeLabel2 = dateformat.all(date,"hh:mm")
+					})
 					if (first){
 						e[0].current = fdateArr[0] == this.currentDate
 					}
