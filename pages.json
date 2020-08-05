@@ -36,6 +36,10 @@
             "path" : "pages/reports/weeks",
             "style" : {}
         }
+        ,{
+            "path" : "pages/reports/months",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "我的天啊",
