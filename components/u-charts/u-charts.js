@@ -1593,7 +1593,9 @@ function getYAxisTextList(series, opts, config, stack) {
   var maxRange = dataRange.maxRange;
   
   //ZZZ
-  opts.yAxis.splitNumber = maxData;
+  if (stack == 'stack') {
+	  opts.yAxis.splitNumber = maxData;
+  }
 
   var range = [];
   var eachRange = (maxRange - minRange) / opts.yAxis.splitNumber;
