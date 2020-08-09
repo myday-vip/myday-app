@@ -152,7 +152,7 @@
 					background:'#FFFFFF',
 					pixelRatio:_self.pixelRatio,
 					series: chartData.series,
-					animation: true,
+					//animation: true,
 					width: _self.cWidth*_self.pixelRatio,
 					height: _self.cHeight*_self.pixelRatio,
 					dataLabel: true,
@@ -189,7 +189,7 @@
 					fontSize:11,
 					background:'#FFFFFF',
 					pixelRatio:_self.pixelRatio,
-					animation: true,
+					//animation: true,
 					categories: chartData.categories,
 					series: chartData.series,
 					xAxis: {
@@ -213,7 +213,7 @@
 				canvasColumn.touchLegend(e);
 				canvasColumn.showToolTip(e, {
 					format: function (item, category) {
-						return category + ' ' + item.name + ':' + item.data 
+						return category + ' ' + item.name + ':' + item.data + "次" 
 					}
 				});
 			},
