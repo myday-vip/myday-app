@@ -12,6 +12,7 @@
 					<view class="flex solid-bottom justify-between">
 						<view class="nav-title">{{subitem.subject}}</view>
 						<view class="cu-capsule radius">
+							<view class="cu-tag" :class="subitem.timeColorDay">{{subitem.timeDay}}</view>
 							<view class="cu-tag" :class="subitem.timeColor1">{{subitem.timeLabel1}}</view>
 							<view class="cu-tag" :class="subitem.timeColor2">{{subitem.timeLabel2}}</view>
 						</view>
@@ -159,7 +160,8 @@
 					e.forEach(sube => {
 						var date = new Date(sube.updateTime)
 						var hour = date.getHours()
-						var timeLabel,timeColor1,timeColor2
+						var days = date.getDay()
+						var timeLabel,timeColor1,timeColor2,timeColorDay
 						if (hour>=1 && hour<5) {
 							timeLabel = "凌晨"
 							timeColor1 = "bg-cyan"
@@ -189,9 +191,42 @@
 							timeColor1 = "bg-purple"
 							timeColor2 = "line-purple"
 						}
+						
+						switch(days) {
+							case 1:
+								  days = '星期一';
+								  timeColorDay = 'bg-gradual-red'
+								  break;
+							case 2:
+								  days = '星期二';
+								  timeColorDay = 'bg-gradual-orange'
+								  break;
+							case 3:
+								  days = '星期三';
+								  timeColorDay = 'bg-gradual-pink'
+								  break;
+							case 4:
+								  days = '星期四';
+								  timeColorDay = 'bg-gradual-purple'
+								  break;
+							case 5:
+								  days = '星期五';
+								  timeColorDay = 'bg-gradual-blue'
+								  break;
+							case 6:
+								  days = '星期六';
+								  timeColorDay = 'bg-gradual-green'
+								  break;
+							case 0:
+								  days = '星期日';
+								  timeColorDay = 'bg-gradual-green'
+								  break;
+						}
+						sube.timeDay = days
 						sube.timeLabel1 = timeLabel
 						sube.timeColor1 = timeColor1
 						sube.timeColor2 = timeColor2
+						sube.timeColorDay = timeColorDay
 						sube.timeLabel2 = dateformat.all(date,"hh:mm")
 					})
 					if (first){
