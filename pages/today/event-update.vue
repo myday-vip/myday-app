@@ -2,7 +2,8 @@
 	
 		<view class="cu-modal" :class="showMain?'show':''">
 			<view class="cu-dialog" style="text-align: left;">
-				<view class="bg-img" :class="addStyle?'height_small':'height_big'" style="background-image: url('https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg');">
+				<view class="bg-img" :class="addStyle?'height_small':'height_big'" 
+				style="background-image: url('https://myday.vip/v1/bg/bing/newest.jpg');">
 					<view v-show="!addStyle" class="cu-bar justify-end text-white">
 						<view class="action" @tap="hideModal(false)">
 							<text class="cuIcon-close "></text>

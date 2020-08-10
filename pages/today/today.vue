@@ -48,7 +48,7 @@
 		<!-- 终结 -->
 		<view class="cu-modal" :class="modalName=='updateToFinal'?'show':''">
 			<view class="cu-dialog">
-				<view class="bg-img" style="background-image: url('https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg');height:200px;">
+				<view class="bg-img" style="background-image: url('https://myday.vip/v1/bg/bing/newest.jpg');height:200px;">
 					<view class="cu-bar justify-end text-white">
 						<view class="action" @tap="modalName=null">
 							<text class="cuIcon-close "></text>

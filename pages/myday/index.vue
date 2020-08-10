@@ -13,7 +13,7 @@
 			</swiper-item>
 		</swiper> -->
 		
-		<view class="bg-img flex align-center"  style="height: 454upx;background-image: url(https://oss.lc.myday.vip/b0498ea2c0f2f0128a6f/bannerBG.png);">
+		<view class="bg-img flex align-center"  style="height: 454upx;background-image: url(https://myday.vip/v1/bg/bing/newest.jpg);">
 			<view class="padding-xl text-white" style="width: 100%;">
 				<block v-if="lifeProgress.v1>0">
 					<view class="cu-progress round" style="height: 55rpx;">
