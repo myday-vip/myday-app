@@ -1594,7 +1594,16 @@ function getYAxisTextList(series, opts, config, stack) {
   
   //ZZZ
   if (stack == 'stack') {
-	  opts.yAxis.splitNumber = maxData;
+	  if (maxData < 7) {
+		  opts.yAxis.splitNumber = maxData;
+	  }else {
+		  opts.yAxis.format = function(val){
+			  if (!Number.isInteger(val)){
+				  return val.toFixed(1);
+			  }
+			  return val;
+			}
+	  }
   }
 
   var range = [];
