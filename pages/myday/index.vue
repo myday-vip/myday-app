@@ -42,7 +42,7 @@
 		
 		<view class=" padding" style="display: flex;">
 			<view class="grid col-2 grid-square">
-				<view class="bg-img shadow-blur shadow-lg" v-for="(item,index) in edata" :key="index" @tap="toDetail(item.id)"
+				<view class="bg-img shadow-blur shadow-lg" v-for="(item,index) in edata" :key="index" @tap="toDetail(item)"
 				:style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 				:class="item.classify == 'INPUT'?'bg-gradual-orange':(item.classify == 'OUTPUT'?'bg-gradual-green':(item.classify == 'NONE'?'bg-none':'bg-orange'))">
 					<block v-if="item.classify == 'NONE'">
@@ -126,12 +126,12 @@
 					this.edata = res
 				})
 			},
-			toDetail: function(id){
-				if (id <=0){
+			toDetail: function(obj){
+				if (obj === null || obj.id <=0){
 					return
 				}
 				uni.navigateTo({
-				    url: '/pages/myday/detail?id=' + id,
+				    url: '/pages/myday/detail?id=' + obj.id+ '&intervalDay=' + obj.intervalDay,
 					animationType: 'pop-in',
 					animationDuration: 260
 				});

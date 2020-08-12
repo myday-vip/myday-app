@@ -34,9 +34,7 @@
 				<view class="image" style="min-height: 500rpx;">
 					<canvas canvas-id="canvasPie" id="canvasPie" class="charts"  @touchstart="touchPie"></canvas>
 				</view>
-
 			</view>
-
 		</view>
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="action">
