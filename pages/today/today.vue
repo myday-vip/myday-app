@@ -5,13 +5,31 @@
 				<text class="cuIcon-title text-orange "></text> 今天
 			</view>
 		</view>
-		<view class="cu-list menu-avatar bg-img" style="background-image: url(https://oss.lc.myday.vip/670812dcb573a95a8c84/md-no-content.png);min-height: 360px;">
+		<view class="cu-list menu-avatar bg-img" 
+		style="min-height: 360px;"
+		:style="{backgroundImage:events.length<=0?'url(https://oss.lc.myday.vip/670812dcb573a95a8c84/md-no-content.png)':''}">
 			<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in events" :key="index"
 			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
-			 @longpress="showMenu(item)" style="background-color: rgba(255, 255, 255, 0.5);">
-				<view class="cu-avatar round lg " 
-				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray',backgroundImage:item.classify == 'INPUT'?'url(https://oss.lc.myday.vip/afeade1256dc5942dc2c/md-input.png)':(item.classify == 'OUTPUT'?'url(https://oss.lc.myday.vip/8d28bc2cf76b8a8d04f5/md-output.png)':'url(https://oss.lc.myday.vip/79ebece8f7a9364a3c10/md-physical-agility.png)')}"></view>
-				<view class="content">
+			 @longpress="showMenu(item)" :style="{backgroundColor: events.length<=0?'rgba(255, 255, 255, 0.5)':'white'}">
+<!-- 				<view class="cu-avatar round lg " 
+				:style="{backgroundColor:item.status == 'TODO'?'orange':'gray',
+				backgroundImage:item.classify == 'INPUT'?
+				'url(https://oss.lc.myday.vip/afeade1256dc5942dc2c/md-input.png)':
+				(item.classify == 'OUTPUT'?'url(https://oss.lc.myday.vip/8d28bc2cf76b8a8d04f5/md-output.png)':
+				'url(https://oss.lc.myday.vip/79ebece8f7a9364a3c10/md-physical-agility.png)')}"></view> -->
+				<view class="cu-avatar round xl " style="background-color: unset">
+					<block v-if="item.status == 'TODO'">
+						<image v-if="item.classify == 'OUTPUT'" mode="widthFix" src="../../static/iip-green-out.png"></image>
+						<image v-if="item.classify == 'INPUT'" mode="widthFix" src="../../static/iip-red-in.png"></image>
+						<image v-if="item.classify == 'PHYSICAL_AGILITY'" mode="widthFix" src="../../static/iip-orange-p.png"></image>
+					</block>
+					<block v-else>
+						<image v-if="item.classify == 'OUTPUT'" mode="widthFix" src="../../static/iip-gray-out.png"></image>
+						<image v-if="item.classify == 'INPUT'" mode="widthFix" src="../../static/iip-gray-in.png"></image>
+						<image v-if="item.classify == 'PHYSICAL_AGILITY'" mode="widthFix" src="../../static/iip-gray-p-man.png"></image>
+					</block>
+				</view>
+				<view class="content" style="left: 160upx;">
 					<view :class="item.status == 'TODO'?'text-orange':'text-gray'">
 						<view class="text-cut">{{item.subject}}</view>
 						<view v-if="item.type == 'EVERYDAY'" class="cu-tag round bg-orange sm">每日必做</view>

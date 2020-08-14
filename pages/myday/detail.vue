@@ -347,12 +347,15 @@
 					xAxis: {
 						disableGrid:true,
 					},
+					yAxis: {
+						//disableGrid:true,
+					},
 					width: _self.cWidth*_self.pixelRatio,
 					height: _self.cHeight*_self.pixelRatio,
 					extra: {
 						column: {
 							type:'stack',
-							width: _self.cWidth*_self.pixelRatio*0.5/chartData.categories.length
+							//width: _self.cWidth*_self.pixelRatio*0.5/chartData.categories.length
 						}
 					  }
 				});
@@ -382,12 +385,15 @@
 					xAxis: {
 						disableGrid:true,
 					},
+					yAxis: {
+						//disableGrid:true,
+					},
 					width: _self.cWidth*_self.pixelRatio,
 					height: _self.cHeight*_self.pixelRatio,
 					extra: {
 						column: {
 							type:'stack',
-							width: _self.cWidth*_self.pixelRatio*0.5/chartData.categories.length
+							//width: _self.cWidth*_self.pixelRatio*0.5/chartData.categories.length
 						}
 					  }
 				});

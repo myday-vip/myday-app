@@ -80,7 +80,7 @@
 					days: {days:365,firstDay:1},
 					years:[2020,2019,2018],//TODO DData
 					currentYearLabel:'',
-					weekDays:['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'],
+					weekDays:['周一','周二','周三','周四','周五','周六','周天'],
 					data:{},
 					nowDate: dateformat.all(new Date(),"yyyy-MM-dd")
 				}
