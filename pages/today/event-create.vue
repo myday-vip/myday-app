@@ -65,7 +65,7 @@
 						</view>
 						<view class="cu-bar bg-white" style="border-top: 1rpx solid #eee;">
 							<view class="action">
-								时光上传
+								时光
 							</view>
 							<view class="action">
 								{{eventStone.imgList.length}}/4
