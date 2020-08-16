@@ -36,6 +36,9 @@ module.exports = {
 	updateStatusFinal: function(id){
 		return post("api/event/final/" + id)
 	},
+	updateSubject: function(event){
+		return post("api/event/subject?id="+event.id+"&subject="+event.subject)
+	},
 	getYearEvents: function(year) {
 		return get("api/event/year/" + year)
 	},

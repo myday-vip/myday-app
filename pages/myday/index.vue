@@ -54,6 +54,9 @@
 					</block>
 					<block v-else>
 						<view class=" text-white text-center " style="padding:20upx 0">
+								<view class="cu-tag" style="background-color: rgba(0, 0, 0, 0.3);" 
+								@tap="showMenu(item)"
+								@tap.stop.prevent="showMenu">&nbsp;&nbsp;...&nbsp;&nbsp;</view>
 								<view class="padding-xs text-xl text-bold">
 									{{item.subject}}
 								</view>
@@ -71,16 +74,57 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- 底部菜单 -->
+		<view class="cu-modal bottom-modal" :class="modalName=='bottomMenu'?'show':''">
+			<view class="cu-dialog">
+		
+				<view class="cu-list menu text-center text-xl">
+					<view class="cu-item" style="color: #FFFFFF;background-color: #39b54a;" 
+					@tap="modalName='updateSubject'">
+						<label class="flex justify-between align-center flex-sub">
+							<view class="flex-sub">修改主题</view>
+						</label>
+					</view>
+					<view class="cu-item" @tap="modalName = null">
+						<label class="flex justify-between align-center flex-sub">
+							<view class="flex-sub">取消</view>
+						</label>
+					</view>
+				</view>
+			</view>
+		</view>
+		<!-- 底部修改主题 -->
+		<view class="cu-modal bottom-modal" :class="modalName=='updateSubject'?'show':''">
+			<view class="cu-dialog">
+				<view class="cu-bar bg-white justify-end">
+					<view class="content">修改主题</view>
+					<view class="action" @tap="hideModal">
+						<text class="cuIcon-close text-red"></text>
+					</view>
+				</view>
+				<view class="padding-xl">
+					<input v-model="selectedEvent.subject"></input>
+				</view>
+				<view class="cu-bar bg-white">
+					<view class="action margin-0 flex-sub solid-left" @tap="hideModal">取消</view>
+					<view class="action margin-0 flex-sub text-green solid-left" @tap="saveSubject()">确定</view>
+				</view>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
 <script>
-	import {getAllEventDetail} from '../../common/api.js'
+	import {getAllEventDetail,updateSubject} from '../../common/api.js'
 	export default {
 		data() {
 			return {
 				edata:[],
 				userInfo:null,
+				modalName: null,
+				selectedEvent: {},
 				lifeProgress:{
 					v1:-1,//剩余天数
 					v2:0//已过去百分比
@@ -135,6 +179,26 @@
 					animationType: 'pop-in',
 					animationDuration: 260
 				});
+			},
+			showMenu: function(model){
+				if (model.target){
+					return
+				}
+				this.selectedEvent = model
+				this.modalName = 'bottomMenu'
+				//event.preventDefault();
+				//event.stopPropagation();
+			},
+			hideModal: function(){
+				this.modalName = null
+			},
+			saveSubject: function(){
+				if (this.selectedEvent !== null){
+					updateSubject(this.selectedEvent).then((res) => {
+						//this.fetchData()
+						this.modalName = null
+					})
+				}
 			}
 		}
 	}
