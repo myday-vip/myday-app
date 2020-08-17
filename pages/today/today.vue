@@ -6,8 +6,8 @@
 			</view>
 		</view>
 		<view class="cu-list menu-avatar bg-img" 
-		style="min-height: 360px;"
-		:style="{backgroundImage:events.length<=0?'url(https://oss.lc.myday.vip/670812dcb573a95a8c84/md-no-content.png)':''}">
+		style="min-height: 360px;background-size:contain;"
+		:style="{backgroundImage:events.length<=0?'url(https://oss.lc.myday.vip/0b37aa7c8a2576dbbb4a/myday-nocontent.png)':''}">
 			<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in events" :key="index"
 			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
 			 @longpress="showMenu(item)" :style="{backgroundColor: events.length<=0?'rgba(255, 255, 255, 0.5)':'white'}">

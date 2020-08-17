@@ -197,6 +197,9 @@
 					updateSubject(this.selectedEvent).then((res) => {
 						//this.fetchData()
 						this.modalName = null
+						uni.showToast({
+							title:'完成'
+						})
 					})
 				}
 			}
