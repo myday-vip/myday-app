@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="bg-img flex align-center" style="height: 454upx;background-color: white;"
+		<view class="bg-img bg-mask flex align-center" style="height: 454upx;background-color: white;"
 		:style="{backgroundImage: 'url('+photo+')'}"
 		@tap="showMenu">
 <!-- 			<block v-if="isLogin === true">
