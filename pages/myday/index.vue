@@ -54,9 +54,17 @@
 					</block>
 					<block v-else>
 						<view class=" text-white text-center " style="padding:20upx 0">
-								<view class="cu-tag" style="background-color: rgba(0, 0, 0, 0.3);" 
+								<view v-if="item.planStatus==='FINAL'" class="cu-tag"
+								>完结</view>
+								<view v-else class="cu-tag" style="background-color: rgba(0, 0, 0, 0.3);" 
 								@tap="showMenu(item)"
 								@tap.stop.prevent="showMenu">&nbsp;&nbsp;...&nbsp;&nbsp;</view>
+								
+								<view v-if="item.type == 'EVERYDAY'" class="cu-tag bg-orange sm" style="background-color: #f37b1d;left: 0;right: unset;margin-left: 0;">每日必做</view>
+								<view v-else-if="item.type == 'WEEKLY'" class="cu-tag bg-green sm" style="background-color: #39b54a ;left: 0;right: unset;margin-left: 0;">每周必做</view>
+								<view v-else-if="item.type == 'MONTHLY'" class="cu-tag bg-gradual-green sm" style="left: 0;right: unset;margin-left: 0;">每月必做</view>
+								<view v-else class="cu-tag bg-blue sm" style="left: 0;right: unset;margin-left: 0;">今日计划</view>
+								
 								<view class="padding-xs text-xl text-bold">
 									{{item.subject}}
 								</view>
@@ -68,7 +76,7 @@
 								</view>
 								<view class="text-sm" style="padding:10upx 0;">
 									{{item.updateTimeChineseDay}}
-								</view>						
+								</view>
 						</view>
 					</block>
 				</view>
@@ -232,4 +240,20 @@
 		color: #333333;
 		background-color: #ccc7d0;
 	}
+	.desc{
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		flex: 1;
+		display: '-webkit-box';
+		display: '-webkit-flex';
+		display: 'flex';
+		-webkit-box-orient: 'vertical';
+		-webkit-box-direction: 'normal';
+		-webkit-flex-direction: 'column';
+		flex-direction: 'column';
+		-webkit-box-pack: 'justify';
+		-webkit-justify-content: 'space-between';
+		justify-content: 'space-between';
+	}
+
 </style>
